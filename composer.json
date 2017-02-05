@@ -6,6 +6,7 @@
     },
     "require": {
         "boyhagemann/wave": "dev-master",
-        "bluemoehre/flac-php": "dev-master"
+        "bluemoehre/flac-php": "dev-master",
+        "wapmorgan/binary-stream": "~0.1"
     }
 }

@@ -27,6 +27,10 @@ class MediaFile {
                     $type = self::AUDIO;
                     $format = self::WAV;
                     break;
+                case 'flac':
+                    $type = self::AUDIO;
+                    $format = self::FLAC;
+                    break;
                 default:
                     throw new Exception('Unknown file extension "'.$ext.'"!');
             }
@@ -46,6 +50,9 @@ class MediaFile {
             switch ($format) {
                 case self::WAV:
                     $this->adapter = new WavAdapter($filename);
+                    break;
+                case self::FLAC:
+                    $this->adapter = new FlacAdapter($filename);
                     break;
 
                 default:

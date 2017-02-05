@@ -11,6 +11,12 @@ namespace wapmorgan\MediaFile;
 interface AudioAdapter {
     const STEREO = 'stereo';
     const MONO = 'mono';
+    const TRIPLI = 'triple';
+    const QUADRO = 'quadro';
+    const FIVE = 'five';
+    const SIX = 'six';
+    const SEVEN = 'seven';
+    const EIGHT = 'eight';
 
     public function getLength();
     public function getBitRate();

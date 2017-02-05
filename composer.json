@@ -5,6 +5,7 @@
         }
     },
     "require": {
-        "boyhagemann/wave": "dev-master"
+        "boyhagemann/wave": "dev-master",
+        "bluemoehre/flac-php": "dev-master"
     }
 }

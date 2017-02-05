@@ -39,4 +39,12 @@ class FlacAdapter implements AudioAdapter {
     public function getChannelsMode() {
         return self::$channelModes[$this->flac->streamChannels];
     }
+
+    public function isVariableBitRate() {
+        return true;
+    }
+
+    public function isLossless() {
+        return false;
+    }
 }

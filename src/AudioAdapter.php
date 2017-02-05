@@ -22,4 +22,6 @@ interface AudioAdapter {
     public function getBitRate();
     public function getSampleRate();
     public function getChannelsMode();
+    public function isVariableBitRate();
+    public function isLossless();
 }

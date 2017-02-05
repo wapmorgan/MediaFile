@@ -41,4 +41,12 @@ class WavAdapter implements AudioAdapter {
     public function getChannelsMode() {
         return self::$channelModes[$this->metadata->getChannels()];
     }
+
+    public function isVariableBitRate() {
+        return false;
+    }
+
+    public function isLossless() {
+        return false;
+    }
 }

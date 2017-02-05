@@ -4,6 +4,11 @@ namespace wapmorgan\MediaFile;
 use Exception;
 use wapmorgan\BinaryStream\BinaryStream;
 
+/**
+ * This class can read MPEG 4 Part 12/14 media container with only audio inside.
+ * Based on specifications from http://l.web.umkc.edu/lizhu/teaching/2016sp.video-communication/ref/mp4.pdf.
+ * Does not provide functionality to work with MPEG 2 Part 7 (AAC) !
+ */
 class AacAdapter implements AudioAdapter {
     protected $filename;
     protected $stream;

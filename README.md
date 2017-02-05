@@ -50,7 +50,7 @@ try {
 | `getFormat()`                            | Returns media file format.                                                |                                                                                                         |
 | `getAudio()`                             | Returns an AudioAdapter interface for audio.                              |                                                                                                         |
 
-## AudioAdapter
+### AudioAdapter
 
 `wapmorgan\MediaFile\AudioAdapter`
 

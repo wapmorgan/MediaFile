@@ -10,7 +10,7 @@ class FlacAdapter implements AudioAdapter {
     static protected $channelModes = array(
         1 => self::MONO,
         2 => self::STEREO,
-        3 => self::TRIPLI,
+        3 => self::TRIPLE,
         4 => self::QUADRO,
         5 => self::FIVE,
         6 => self::SIX,

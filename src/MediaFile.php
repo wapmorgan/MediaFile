@@ -11,6 +11,7 @@ class MediaFile {
     const MP3 = 'mp3';
     const FLAC = 'flac';
     const AAC = 'aac';
+    const OGG = 'ogg';
 
     protected $filename;
     protected $type;
@@ -37,6 +38,10 @@ class MediaFile {
                     $type = self::AUDIO;
                     $format = self::AAC;
                     break;
+                case 'ogg':
+                    $type = self::AUDIO;
+                    $format = self::OGG;
+                    break;
                 default:
                     throw new Exception('Unknown file extension "'.$ext.'"!');
             }
@@ -62,6 +67,9 @@ class MediaFile {
                     break;
                 case self::AAC:
                     $this->adapter = new AacAdapter($filename);
+                    break;
+                case self::OGG:
+                    $this->adapter = new OggAdapter($filename);
                     break;
 
                 default:

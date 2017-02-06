@@ -16,6 +16,7 @@ Supported formats:
   - wav
   - flac
   - aac
+  - ogg
 
 How to use:
 

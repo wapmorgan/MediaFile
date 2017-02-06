@@ -14,6 +14,8 @@ class MediaFile {
     const OGG = 'ogg';
     const AMR = 'amr';
 
+    const AVI = 'avi';
+
     protected $filename;
     protected $type;
     protected $format;
@@ -51,6 +53,12 @@ class MediaFile {
                     $type = self::AUDIO;
                     $format = self::AMR;
                     break;
+
+                case 'avi':
+                    $type = self::VIDEO;
+                    $format = self::AVI;
+                    break;
+
                 default:
                     throw new Exception('Unknown file extension "'.$ext.'"!');
             }
@@ -90,6 +98,15 @@ class MediaFile {
                 default:
                     throw new Exception('Type "'.$type.'" does not have format "'.$format.'"!');
             }
+        } else {
+            switch ($format) {
+                case self::AVI:
+                    $this->adapter = new AviAdapter($filename);
+                    break;
+
+                default:
+                    throw new Exception('Type "'.$type.'" does not have format "'.$format.'"!');
+            }
         }
 
         $this->filename = $filename;
@@ -105,6 +122,10 @@ class MediaFile {
         return $this->type == self::VIDEO;
     }
 
+    public function isContainer() {
+        return $this->adapter instanceof ContainerAdapter;
+    }
+
     public function getType() {
         return $this->type;
     }
@@ -116,5 +137,12 @@ class MediaFile {
     public function getAudio() {
         if ($this->type == self::AUDIO)
             return $this->adapter;
+    }
+
+    public function getVideo() {
+        if ($this->type == self::VIDEO)
+            return $this->adapter;
+        else
+            throw new Exception('This is not a video file!');
     }
 }

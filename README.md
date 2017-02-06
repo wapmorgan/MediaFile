@@ -18,6 +18,7 @@ Supported formats:
   - aac
   - ogg
   - mp3
+  - amr
 
 How to use:
 

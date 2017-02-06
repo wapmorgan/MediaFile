@@ -12,6 +12,7 @@ class MediaFile {
     const FLAC = 'flac';
     const AAC = 'aac';
     const OGG = 'ogg';
+    const AMR = 'amr';
 
     protected $filename;
     protected $type;
@@ -46,6 +47,10 @@ class MediaFile {
                     $type = self::AUDIO;
                     $format = self::MP3;
                     break;
+                case 'amr':
+                    $type = self::AUDIO;
+                    $format = self::AMR;
+                    break;
                 default:
                     throw new Exception('Unknown file extension "'.$ext.'"!');
             }
@@ -77,6 +82,9 @@ class MediaFile {
                     break;
                 case self::MP3:
                     $this->adapter = new Mp3Adapter($filename);
+                    break;
+                case self::AMR:
+                    $this->adapter = new AmrAdapter($filename);
                     break;
 
                 default:

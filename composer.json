@@ -1,4 +1,8 @@
 {
+    "name": "wapmorgan/media-file",
+    "description": "A unified reader of metadata from audio & video files",
+    "license": "MIT",
+    "keywords": ["wav", "flac", "aac", "ogg", "mp3", "amr", "avi"],
     "autoload": {
         "psr-4": {
             "wapmorgan\\MediaFile\\": "src/"

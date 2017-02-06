@@ -78,7 +78,7 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
         $this->stream->saveGroup('video_strf', array(
             'i:size2' => 32,
             'i:width' => 32,
-            'i:heigth' => 32,
+            'i:height' => 32,
             'i:planes' => 16,
             'i:bitCount' => 16,
             's:compression' => 4,
@@ -149,8 +149,11 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
             // strf
             $strf = $this->stream->readGroup('chunk');
             if ($strh['type'] == 'vids') {
-                $this->stream->skip($strf['size']);
-                // $strf += $this->stream->readGroup('video_strf');
+                $strf += $this->stream->readGroup('video_strf');
+                $this->streams[$i]['width'] = $strf['width'];
+                $this->streams[$i]['height'] = $strf['height'];
+                // $this->stream->skip($strf['size']);
+                // var_dump($strf);
             }
 
             // strn

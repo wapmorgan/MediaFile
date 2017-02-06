@@ -14,10 +14,10 @@ foreach ($argv as $file) {
             echo $file.' '.$media->getType().':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' at '.($media->getAudio()->getSampleRate() / 1000).'KHz '.($media->getAudio()->getBitRate() / 1000).'Kbps'.PHP_EOL;
         } else if ($media->isContainer()) {
             $length = $media->getVideo()->getLength();
-            echo $file.' '.$media->getType().':'.$media->getFormat().' ['.$media->getVideo()->countAudioStreams().' audio / '.$media->getVideo()->countVideoStreams().' video] '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().PHP_EOL;
+            echo $file.' '.$media->getType().':'.$media->getFormat().' ['.$media->getVideo()->countAudioStreams().' audio / '.$media->getVideo()->countVideoStreams().' video] '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().' '.$media->getVideo()->getFramerate().'fps'.PHP_EOL;
         } else {
             $length = $media->getVideo()->getLength();
-            echo $file.' '.$media->getType().':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().PHP_EOL;
+            echo $file.' '.$media->getType().':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().' '.$media->getVideo()->getFramerate().'fps'.PHP_EOL;
         }
     } catch (Exception $e) {
         echo 'File '.$file.' is not a media file'.PHP_EOL;

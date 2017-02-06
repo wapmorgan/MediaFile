@@ -25,6 +25,7 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
     protected $stream;
     protected $avih;
     protected $length;
+    protected $framerate;
 
     static protected $streamTypes = array(
         'vids' => ContainerAdapter::VIDEO,
@@ -87,6 +88,17 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
             'i:clrUsed' => 32,
             'i:clrImportant' => 32,
         ));
+        $this->stream->saveGroup('video_properties', array(
+            'i:format' => 32,
+            'i:standard' => 32,
+            'i:verticalRefreshRate' => 32,
+            'i:hTotal' => 32,
+            'i:vTotal' => 32,
+            'i:aspect' => 32,
+            'i:width' => 32,
+            'i:height' => 32,
+            'i:fieldPerFrame' => 32,
+        ));
         $this->scan();
     }
 
@@ -125,18 +137,21 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
                     'type' => self::$streamTypes[$strh['type']],
                     'codec' => $strh['codec'],
                     'length' => $strh['length'] / $strh['rate'] / $strh['scale'],
+                    'framerate' => $strh['rate'] / $strh['scale'],
                 );
 
-                if ($strh['type'] == 'vids' && empty($this->length)) {
-                    $this->length = $this->streams[$i]['length'];
+                if ($strh['type'] == 'vids') {
+                    if (empty($this->length)) $this->length = $this->streams[$i]['length'];
+                    if (empty($this->framerate)) $this->framerate = $this->streams[$i]['framerate'];
                 }
             }
 
             // strf
             $strf = $this->stream->readGroup('chunk');
-            if ($strh['type'] == 'vids')
-                $strf += $this->stream->readGroup('video_strf');
-            // var_dump($strf);
+            if ($strh['type'] == 'vids') {
+                $this->stream->skip($strf['size']);
+                // $strf += $this->stream->readGroup('video_strf');
+            }
 
             // strn
             if ($this->stream->compare(4, 'strn')) {
@@ -146,6 +161,12 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
             // indx
             if ($this->stream->compare(4, 'indx')) {
                 $strn = $this->stream->readGroup('chunk');
+            }
+
+            if ($this->stream->compare(4, 'vprp')) {
+                $vprp = $this->stream->readGroup('chunk');
+                $vprp += $this->stream->readGroup('video_properties');
+                // var_dump($vprp);
             }
 
             // go to next strl
@@ -167,6 +188,10 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
 
     public function getHeight() {
         return $this->avih['height'];
+    }
+
+    public function getFramerate() {
+        return $this->framerate;
     }
 
     public function countStreams() {

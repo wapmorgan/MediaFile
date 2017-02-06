@@ -11,4 +11,5 @@ interface VideoAdapter {
     public function getLength();
     public function getWidth();
     public function getHeight();
+    public function getFramerate();
 }

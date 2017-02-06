@@ -85,11 +85,12 @@ try {
 
 `wapmorgan\MediaFile\VideoAdapter`
 
-| Method        | Description                                                  | Notes |
-|---------------|--------------------------------------------------------------|-------|
-| `getLength()` | Returns video length in seconds and microseconds in _float_. |       |
-| `getWidth()`  | Returns width of video as _int_.                             |       |
-| `getHeight()` | Returns height of video as _int_.                            |       |
+| Method           | Description                                                  | Notes |
+|------------------|--------------------------------------------------------------|-------|
+| `getLength()`    | Returns video length in seconds and microseconds in _float_. |       |
+| `getWidth()`     | Returns width of video as _int_.                             |       |
+| `getHeight()`    | Returns height of video as _int_.                            |       |
+| `getFramerate()` | Returns video frame rate of video as _int_.                  |       |
 
 ### ContainerAdapter
 

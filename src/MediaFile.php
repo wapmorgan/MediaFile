@@ -15,6 +15,8 @@ class MediaFile {
     const AMR = 'amr';
 
     const AVI = 'avi';
+    const ASF = 'asf';
+    const WMV = 'wmv';
 
     protected $filename;
     protected $type;
@@ -57,6 +59,14 @@ class MediaFile {
                 case 'avi':
                     $type = self::VIDEO;
                     $format = self::AVI;
+                    break;
+                case 'asf':
+                    $type = self::VIDEO;
+                    $format = self::ASF;
+                    break;
+                case 'wmv':
+                    $type = self::VIDEO;
+                    $format = self::WMV;
                     break;
 
                 default:
@@ -102,6 +112,12 @@ class MediaFile {
             switch ($format) {
                 case self::AVI:
                     $this->adapter = new AviAdapter($filename);
+                    break;
+                case self::ASF:
+                    $this->adapter = new AsfAdapter($filename);
+                    break;
+                case self::WMV:
+                    $this->adapter = new WmvAdapter($filename);
                     break;
 
                 default:

@@ -87,7 +87,7 @@ try {
 
 | Method        | Description                                                  | Notes |
 |---------------|--------------------------------------------------------------|-------|
-| `getLength()` | Returns audio length in seconds and microseconds in _float_. |       |
+| `getLength()` | Returns video length in seconds and microseconds in _float_. |       |
 | `getWidth()`  | Returns width of video as _int_.                             |       |
 | `getHeight()` | Returns height of video as _int_.                            |       |
 

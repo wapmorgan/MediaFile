@@ -1,7 +1,8 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use \Flac;
+use Exception;
+use Flac;
 
 class FlacAdapter implements AudioAdapter {
     protected $filename;

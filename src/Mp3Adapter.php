@@ -1,6 +1,7 @@
 <?php
 namespace wapmorgan\MediaFile;
 
+use Exception;
 use wapmorgan\Mp3Info\Mp3Info;
 
 class Mp3Adapter implements AudioAdapter {

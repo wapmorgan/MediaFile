@@ -1,6 +1,7 @@
 <?php
 namespace wapmorgan\MediaFile;
 
+use Exception;
 use BoyHagemann\Wave\Wave;
 
 class WavAdapter implements AudioAdapter {

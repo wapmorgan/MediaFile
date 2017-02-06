@@ -42,6 +42,10 @@ class MediaFile {
                     $type = self::AUDIO;
                     $format = self::OGG;
                     break;
+                case 'mp3':
+                    $type = self::AUDIO;
+                    $format = self::MP3;
+                    break;
                 default:
                     throw new Exception('Unknown file extension "'.$ext.'"!');
             }
@@ -70,6 +74,9 @@ class MediaFile {
                     break;
                 case self::OGG:
                     $this->adapter = new OggAdapter($filename);
+                    break;
+                case self::MP3:
+                    $this->adapter = new Mp3Adapter($filename);
                     break;
 
                 default:

@@ -9,8 +9,10 @@ namespace wapmorgan\MediaFile;
  * - channelsMode
  */
 interface AudioAdapter {
-    const STEREO = 'stereo';
     const MONO = 'mono';
+    const DUAL_MONO = 'dual_mono';
+    const STEREO = 'stereo';
+    const JOINT_STEREO = 'joint_stereo';
     const TRIPLE = 'triple';
     const QUADRO = 'quadro';
     const FIVE = 'five';

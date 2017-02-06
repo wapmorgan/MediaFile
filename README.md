@@ -17,6 +17,7 @@ Supported formats:
   - flac
   - aac
   - ogg
+  - mp3
 
 How to use:
 

@@ -12,6 +12,6 @@
         "boyhagemann/wave": "dev-master",
         "bluemoehre/flac-php": "dev-master",
         "wapmorgan/mp3info": "~0.0",
-        "wapmorgan/binary-stream": "^0.1.4"
+        "wapmorgan/binary-stream": "^0.1.5"
     }
 }

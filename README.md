@@ -14,6 +14,7 @@ It can retrieve following information:
   - length
   - width
   - height
+  - frameRate
 
 - For any container:
   - number of streams

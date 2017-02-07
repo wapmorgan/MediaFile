@@ -57,17 +57,29 @@ try {
 
 `wapmorgan\wapmorgan\MediaFile`
 
-| Method                                   | Description                                                               | Notes                                                                                                   |
-|------------------------------------------|---------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| `static open($filename)`                 | Detects file type and format and calls constructor with these parameters. | Throws an `\Exception` if file is not a media or is not accessible.                                     |
-| `__construct($filename, $type, $format)` | Opens file and reads metadata.                                            | Available `$type` values: `MediaFile::AUDIO`, `MediaFile::VIDEO`. Available `$format` values see below. |
-| `isAudio()`                              | Returns true if media is just audio.                                      |                                                                                                         |
-| `isVideo()`                              | Returns true if media is a video with audio.                              |                                                                                                         |
-| `isContainer()`                          | Returns true if media is a container (which can store audios and videos). |                                                                                                         |
-| `getType()`                              | Returns media file type.                                                  |                                                                                                         |
-| `getFormat()`                            | Returns media file format.                                                |                                                                                                         |
-| `getAudio()`                             | Returns an AudioAdapter interface for audio.                              |                                                                                                         |
-| `getVideo()`                             | Returns an VideoAdapter interface for video.                              |                                                                                                         |
+| Method                                   | Description                                                                       | Notes                                                                                                   |
+|------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| `static open($filename)`                 | Detects file type and format and calls constructor with these parameters.         | Throws an `\Exception` if file is not a media or is not accessible.                                     |
+| `__construct($filename, $type, $format)` | Opens file and reads metadata.                                                    | Available `$type` values: `MediaFile::AUDIO`, `MediaFile::VIDEO`. Available `$format` values see below. |
+| `isAudio()`                              | Returns true if media is just audio.                                              |                                                                                                         |
+| `isVideo()`                              | Returns true if media is a video with audio.                                      |                                                                                                         |
+| `isContainer()`                          | Returns true if media is also a container (can store multiple audios and videos). |                                                                                                         |
+| `getType()`                              | Returns media file type.                                                          |                                                                                                         |
+| `getFormat()`                            | Returns media file format.                                                        |                                                                                                         |
+| `getAudio()`                             | Returns an AudioAdapter interface for audio.                                      |                                                                                                         |
+| `getVideo()`                             | Returns an VideoAdapter interface for video.                                      |                                                                                                         |
+
+Available formats:
+
+1. For `MediaFile::AUDIO`:
+
+  | `MediaFile::WAV` | `MediaFile::FLAC` | `MediaFile::AAC` | `MediaFile::OGG` | `MediaFile::MP3` | `MediaFile::AMR` |
+  |------------------|-------------------|------------------|------------------|------------------|------------------|
+
+2. For `MediaFile::VIDEO`:
+
+  | `MediaFile::AVI` | `MediaFile::WMV` | `MediaFile::ASF` |
+  |------------------|------------------|------------------|
 
 ### AudioAdapter
 
@@ -75,7 +87,7 @@ try {
 
 | Method                | Description                                                       | Notes                                                                                                                                                                          |
 |-----------------------|-------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `getLength()`         | Returns audio length in seconds and microseconds in _float_.      |                                                                                                                                                                                |
+| `getLength()`         | Returns audio length in seconds and microseconds as _float_.      |                                                                                                                                                                                |
 | `getBitRate()`        | Returns audio bit rate as _int_.                                  |                                                                                                                                                                                |
 | `getSampleRate()`     | Returns audio sampling rate as _int_.                             |                                                                                                                                                                                |
 | `getChannelsMode()`   | Returns channes mode as one of `AudioAdapter` constant.           | Available modes: `AudioAdapter::MONO`, `AudioAdapter::STEREO`, `AudioAdapter::QUADRO`, `AudioAdapter::FIVE`, `AudioAdapter::SIX`, `AudioAdapter::SEVEN`, `AudioAdapter::EIGHT` |
@@ -88,7 +100,7 @@ try {
 
 | Method           | Description                                                  | Notes |
 |------------------|--------------------------------------------------------------|-------|
-| `getLength()`    | Returns video length in seconds and microseconds in _float_. |       |
+| `getLength()`    | Returns video length in seconds and microseconds as _float_. |       |
 | `getWidth()`     | Returns width of video as _int_.                             |       |
 | `getHeight()`    | Returns height of video as _int_.                            |       |
 | `getFramerate()` | Returns video frame rate of video as _int_.                  |       |

@@ -33,6 +33,7 @@ Supported formats:
 
 - Video
   - avi (also as container)
+  - wmv (also as container)
 
 How to use:
 
@@ -78,8 +79,8 @@ Available formats:
 
 2. For `MediaFile::VIDEO`:
 
-  | `MediaFile::AVI` | `MediaFile::WMV` | `MediaFile::ASF` |
-  |------------------|------------------|------------------|
+  | `MediaFile::AVI` | `MediaFile::WMV` |
+  |------------------|------------------|
 
 ### AudioAdapter
 

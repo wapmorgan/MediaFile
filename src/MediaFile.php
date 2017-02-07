@@ -13,6 +13,7 @@ class MediaFile {
     const AAC = 'aac';
     const OGG = 'ogg';
     const AMR = 'amr';
+    const WMA = 'wma';
 
     const AVI = 'avi';
     const ASF = 'asf';
@@ -54,6 +55,10 @@ class MediaFile {
                 case 'amr':
                     $type = self::AUDIO;
                     $format = self::AMR;
+                    break;
+                case 'wma':
+                    $type = self::AUDIO;
+                    $format = self::WMA;
                     break;
 
                 case 'avi':
@@ -103,6 +108,9 @@ class MediaFile {
                     break;
                 case self::AMR:
                     $this->adapter = new AmrAdapter($filename);
+                    break;
+                case self::WMA:
+                    $this->adapter = new WmaAdapter($filename);
                     break;
 
                 default:

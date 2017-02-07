@@ -21,6 +21,7 @@ class WmvAdapter extends AsfAdapter implements VideoAdapter {
                 $this->width = $stream['width'];
                 $this->height = $stream['height'];
                 $this->framerate = $stream['framerate'];
+                break;
             }
         }
     }

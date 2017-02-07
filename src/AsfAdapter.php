@@ -359,8 +359,30 @@ class AsfAdapter implements ContainerAdapter {
                     }
 
                     break;
+
+                case self::HEADER:
+                case self::FILE_PROPERTIES:
+                case self::STREAM_PROPERTIES:
+                case self::HEADER_EXTENSION:
+                case self::CODEC_LIST:
+                case self::SCRIPT_COMMAND:
+                case self::MARKER:
+                case self::BITRATE_MUTUAL_EXCLUSION:
+                case self::ERROR_CORRECTION:
+                case self::CONTENT_DESCRIPTION:
+                case self::EXTENDED_CONTENT_DESCRIPTION:
+                case self::CONTENT_BRANDING:
+                case self::STREAM_BITRATE_PROPERTIES:
+                case self::CONTENT_ENCRYPTION:
+                case self::EXTENDED_CONTENT_ENCRYPTION:
+                case self::DIGITAL_SIGNATURE:
+                case self::PADDING:
+                    $object = $this->stream->readGroup('object');
+                    $this->stream->skip($object['size'] - 24);
+                    continue;
+
                 default:
-                    // var_dump($object_type);
+                    var_dump($object_type);
                     break(2);
             }
 

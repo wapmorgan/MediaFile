@@ -11,6 +11,9 @@ use wapmorgan\BinaryStream\BinaryStream;
 class AsfAdapter implements ContainerAdapter {
     protected $filename;
     protected $stream;
+    protected $properties;
+    protected $streams_bitrates;
+    protected $streams;
 
     const HEADER = 'header_uuid';
     const FILE_PROPERTIES = 'file_properties_uuid';
@@ -31,6 +34,28 @@ class AsfAdapter implements ContainerAdapter {
     const PADDING = 'padding_uuid';
     const DATA = 'data_uuid';
 
+    const EXTENDED_STREAM_PROPERTIES = 'extended_stream_properties_uuid';
+    const ADVANCED_MUTUAL_EXCLUSION = 'advanced_mutual_exclusion_uuid';
+    const GROUP_MUTUAL_EXCLUSION = 'group_mutual_exclusion_uuid';
+    const STREAM_PRIORITIZATION = 'stream_prioritization_uuid';
+    const BANDWIDTH_SHARING = 'bandwidth_sharing_uuid';
+    const LANGUAGE_LIST = 'language_list_uuid';
+    const METADATA = 'metadata_uuid';
+    const METADATA_LIBRARY = 'metadata_library_uuid';
+    const INDEX_PARAMETERS = 'index_parameters_uuid';
+    const MEDIA_OBJECT_INDEX_PARAMETERS = 'media_object_index_parameters_uuid';
+    const TIMECODE_INDEX_PARAMETERS = 'timecode_index_parameters_uuid';
+    const COMPATIBILITY = 'compatibility_uuid';
+    const ADVANCED_CONTENT_ENCRYPTION = 'advanced_content_encryption_uuid';
+
+    const AUDIO_MEDIA = 'audio_media_uuid';
+    const VIDEO_MEDIA = 'video_media_uuid';
+    const COMMAND_MEDIA = 'command_media_uuid';
+    const JFIF_MEDIA = 'jfif_media_uuid';
+    const DEGRADABLE_JPEG_MEDIA = 'degradable_jpeg_media_uuid';
+    const FILE_TRANSFER_MEDIA = 'file_transfer_media_uuid';
+    const BINARY_MEDIA = 'binary_media_uuid';
+
     static protected $uuids = array(
         self::HEADER => '3026b2758e66cf11a6d900aa0062ce6c',
         self::FILE_PROPERTIES => 'a1dcab8c47a9cf118ee400c00c205365',
@@ -50,6 +75,32 @@ class AsfAdapter implements ContainerAdapter {
         self::DIGITAL_SIGNATURE => 'fcb3112223bdd211b4b700a0c955fc6e',
         self::PADDING => '74d40618dfca0945a4ba9aabcb96aae8',
         self::DATA => '3626b2758e66cf11a6d900aa0062ce6c',
+    );
+
+    static protected $extension_uuids = array(
+        self::EXTENDED_STREAM_PROPERTIES => 'cba5e61472c632438399a96952065b5a',
+        self::ADVANCED_MUTUAL_EXCLUSION => 'cf4986a0754770468a166e35357566cd',
+        self::GROUP_MUTUAL_EXCLUSION => '405a46d1795a3843b71be36b8fd6c249',
+        self::STREAM_PRIORITIZATION => '5bd1fed4d3884f4581f0ed5c45999e24',
+        self::BANDWIDTH_SHARING => 'e60996a67b51d211b6af00c04fd908e9',
+        self::LANGUAGE_LIST => 'a946437ce0effc4bb229393ede415c85',
+        self::METADATA => 'eacbf8c5af5b77488467aa8c44fa4cca',
+        self::METADATA_LIBRARY => '941c23449894d149a1411d134e457054',
+        self::INDEX_PARAMETERS => 'df29e2d6da35d111903400a0c90349be',
+        self::MEDIA_OBJECT_INDEX_PARAMETERS => 'ad3b206b113fe448aca8d7613de2cfa7',
+        self::TIMECODE_INDEX_PARAMETERS => '6d495ef597975d4b8c8b604dfe9bfb24',
+        self::COMPATIBILITY => '3026b2758e66cf11a6d900aa0062ce6c',
+        self::ADVANCED_CONTENT_ENCRYPTION => '338505438169e6499b74ad12cb86d58c',
+    );
+
+    static protected $stream_type_uuids = array(
+        self::AUDIO_MEDIA => '409e69f84d5bcf11a8fd00805f5c442b',
+        self::VIDEO_MEDIA => 'c0ef19bc4d5bcf11a8fd00805f5c442b',
+        self::COMMAND_MEDIA => 'c0cfda59e659d011a3ac00a0c90348f6',
+        self::JFIF_MEDIA => '00e11bb64e5bcf11a8fd00805f5c442b',
+        self::DEGRADABLE_JPEG_MEDIA => 'e07d903515e4cf11a91700805f5c442b',
+        self::FILE_TRANSFER_MEDIA => '2c22bd911cf27a498b6d5aa86bfc0185',
+        self::BINARY_MEDIA => 'e265fb3aef47f240ac2c70a90d71d343',
     );
 
     public function __construct($filename) {
@@ -76,10 +127,98 @@ class AsfAdapter implements ContainerAdapter {
             'i:length' => 64,
             'i:send_length' => 64,
             'i:preroll' => 64,
-            'i:flags' => 32,
+            'broadcast' => 1,
+            'seekable' => 1,
+            '_' => 30,
             'i:min_packet_size' => 32,
             'i:max_packet_size' => 32,
             'i:max_bit_rate' => 32,
+        ));
+        $this->stream->saveGroup('stream_properties_object', array(
+            's:guid' => 16,
+            'i:size' => 64,
+            's:type' => 16,
+            's:error_correction_type' => 16,
+            'i:time_offset' => 64,
+            'i:type_specific_data_length' => 32,
+            'i:error_correction_data_length' => 32,
+            'stream_number' => 7,
+            '_' => 8,
+            'encrypted' => 1,
+            'i:_' => 32,
+        ));
+        $this->stream->saveGroup('stream_bitrate_properties_object', array(
+            's:guid' => 16,
+            'i:size' => 64,
+            'i:count' => 16,
+        ));
+        $this->stream->saveGroup('bitrate_record', array(
+            'stream_number' => 7,
+            '_' => 9,
+            'i:bitrate' => 32,
+        ));
+        $this->stream->saveGroup('video_media_object', array(
+            'i:width' => 32,
+            'i:height' => 32,
+            'c:reserved' => 1,
+            'i:data_size' => 16,
+        ));
+        $this->stream->saveGroup('BITMAPINFOHEADER', array(
+            'i:format_data_size' => 32,
+            'i:image_width' => 32,
+            'i:image_height' => 32,
+            'i:reserved2' => 16,
+            'i:bits_per_pixel' => 16,
+            's:compression_id' => 4,
+            'i:image_size' => 32,
+            'i:horizontal_pixels_per_meter' => 32,
+            'i:vertical_pixels_per_meter' => 32,
+            'i:colors_used_count' => 32,
+            'i:important_colors_count' => 32,
+        ));
+        $this->stream->saveGroup('WAVEFORMATEX', array(
+            'i:codec' => 16,
+            'i:channels_count' => 16,
+            'i:sample_rate' => 32,
+            'i:byte_rate' => 32,
+            'i:alignment' => 16,
+            'i:bits_per_sample' => 16,
+            'i:codec_data_size' => 16,
+        ));
+        $this->stream->saveGroup('header_extension_object', array(
+            's:guid' => 16,
+            'i:size' => 64,
+            's:guid2' => 16,
+            'i:reserved' => 16,
+            'i:extension_size' => 32,
+        ));
+        $this->stream->saveGroup('extended_stream_properties_object', array(
+            's:guid' => 16,
+            'i:size' => 64,
+            'i:start_time' => 64,
+            'i:end_time' => 64,
+            'i:data_bitrate' => 32,
+            'i:buffer_size' => 32,
+            'i:initial_buffer_fullness' => 32,
+            'i:alternate_data_bitrate' => 32,
+            'i:alternate_buffer_size' => 32,
+            'i:alternate_initial_buffer_fullness' => 32,
+            'i:maximum_object_size' => 32,
+            'i:flags' => 32,
+            'i:stream_number' => 16,
+            'i:lang_id' => 16,
+            'i:avg_time_per_frame' => 64,
+            'i:names_count' => 16,
+            'i:payext_count' => 16,
+        ));
+        $this->stream->saveGroup('stream_name', array(
+            'i:id' => 16,
+            'i:length' => 16,
+        ));
+        $this->stream->saveGroup('payload_extension', array(
+            's:guid' => 16,
+            'i:size' => 16,
+            'i:length' => 32,
         ));
         $this->scan();
     }
@@ -89,36 +228,172 @@ class AsfAdapter implements ContainerAdapter {
             throw new Exception('This file is not an ASF file!');
 
         $header = $this->stream->readGroup('header_object');
+
         while (true) {
             $this->stream->mark('current_object');
-            $object_uuid_string = $this->stream->readString(16);
+            $object_uuid = $this->stringToUUid($this->stream->readString(16));
             $this->stream->go('current_object');
-            $object_uuid = null;
-            for ($i = 0; $i < 16; $i++)
-                $object_uuid .= str_pad(dechex(ord($object_uuid_string[$i])), 2, '0', STR_PAD_LEFT);
+
 
             if (!in_array($object_uuid, self::$uuids)) {
                 $object = $this->stream->readGroup('object');
                 $this->stream->skip($object['size'] - 24);
-                var_dump($object_uuid);
-                continue;
+                break;
             }
 
             $object_type = array_search($object_uuid, self::$uuids);
             switch ($object_type) {
                 case self::FILE_PROPERTIES:
                     $file_properties = $this->stream->readGroup('file_properties_object');
-                    var_dump($file_properties);
+                    $file_properties['send_length'] = $file_properties['send_length'] / 10000000;
+                    $this->properties = $file_properties;
                     break;
+                case self::STREAM_BITRATE_PROPERTIES:
+                    $stream_bitrate_properties = $this->stream->readGroup('stream_bitrate_properties_object');
+                    $bitrates = array();
+                    for ($i = 0; $i < $stream_bitrate_properties['count']; $i++) {
+                        $bitrate = $this->stream->readGroup('bitrate_record');
+                        $bitrates[$bitrate['stream_number']] = $bitrate['bitrate'];
+                    }
+                    $this->streams_bitrates = $bitrates;
+                    break;
+                case self::STREAM_PROPERTIES:
+                    $stream_properties = $this->stream->readGroup('stream_properties_object');
+                    $stream_properties['type'] = $this->stringToUUid($stream_properties['type']);
+
+                    if (!in_array($stream_properties['type'], self::$stream_type_uuids)) {
+                        $this->stream->skip($stream_properties['type_specific_data_length']);
+                        $this->stream->skip($stream_properties['error_correction_data_length']);
+                        continue;
+                    }
+
+                    switch (array_search($stream_properties['type'], self::$stream_type_uuids)) {
+                        case self::VIDEO_MEDIA:
+                            $stream_properties += $this->stream->readGroup('video_media_object');
+                            $stream_properties += $this->stream->readGroup('BITMAPINFOHEADER');
+                            $this->stream->skip($stream_properties['format_data_size'] - 40); // 40 - size of BITMAPINFOHEADER structure
+                            $this->streams[$stream_properties['stream_number']] = array(
+                                'type' => ContainerAdapter::VIDEO,
+                                'codec' => $stream_properties['compression_id'],
+                                'length' => 0,
+                                'framerate' => 0,
+                                'width' => $stream_properties['width'],
+                                'height' => $stream_properties['height'],
+                            );
+                            break;
+
+                        case self::AUDIO_MEDIA:
+                            $stream_properties += $this->stream->readGroup('WAVEFORMATEX');
+                            $this->stream->skip($stream_properties['codec_data_size']);
+                            $this->streams[$stream_properties['stream_number']] = array(
+                                'type' => ContainerAdapter::AUDIO,
+                                'codec' => null,
+                                'length' => 0,
+                                'channels' => $stream_properties['channels_count'],
+                                'sample_rate' => $stream_properties['sample_rate'],
+                                'bits_per_sample' => $stream_properties['bits_per_sample'],
+                                'bit_rate' => $stream_properties['byte_rate'] * 8,
+                            );
+                            break;
+
+                        default:
+                            // another media type, just skip it
+                            $this->stream->skip($stream_properties['type_specific_data_length']);
+                            break;
+                    }
+                    $this->stream->skip($stream_properties['error_correction_data_length']);
+                    // var_dump($stream_properties);
+                    break;
+                case self::HEADER_EXTENSION:
+                    $header_extension = $this->stream->readGroup('header_extension_object');
+
+                    $extended_stream_properties_count = 0;
+
+                    while (true) {
+                        $this->stream->mark('current_extension_object');
+                        $extension_object_uuid = $this->stringToUUid($this->stream->readString(16));
+                        $this->stream->go('current_extension_object');
+                        // skip unknown extension object
+                        if (!in_array($extension_object_uuid, self::$extension_uuids)) {
+                            $extension_object = $this->stream->readGroup('object');
+                            $this->stream->skip($extension_object['size'] - 24);
+                            break;
+                        }
+
+                        $extension_object_type = array_search($extension_object_uuid, self::$extension_uuids);
+                        switch ($extension_object_type) {
+                            case self::EXTENDED_STREAM_PROPERTIES:
+                                $extended_stream_properties = $this->stream->readGroup('extended_stream_properties_object');
+                                // var_dump($extended_stream_properties);
+                                $this->stream->go('current_extension_object');
+                                $this->stream->skip($extended_stream_properties['size']); // 82 - size of extended stream properties structure
+
+                                $this->streams[$extended_stream_properties['stream_number'] - 1]['length'] = ($extended_stream_properties['end_time'] - $extended_stream_properties['start_time']);
+
+                                // jump out when all stream extended properties retrieved
+                                if (++$extended_stream_properties_count >= count($this->streams)) break(2);
+                                continue;
+
+                            // skipping these objects to arrive extended stream properties
+                            case self::ADVANCED_MUTUAL_EXCLUSION:
+                            case self::GROUP_MUTUAL_EXCLUSION:
+                            case self::STREAM_PRIORITIZATION:
+                            case self::BANDWIDTH_SHARING:
+                            case self::LANGUAGE_LIST:
+                            case self::METADATA:
+                            case self::METADATA_LIBRARY:
+                            case self::INDEX_PARAMETERS:
+                            case self::MEDIA_OBJECT_INDEX_PARAMETERS:
+                            case self::TIMECODE_INDEX_PARAMETERS:
+                            case self::COMPATIBILITY:
+                            case self::ADVANCED_CONTENT_ENCRYPTION:
+                                $extension_object = $this->stream->readGroup('object');
+                                $this->stream->skip($extension_object['size'] - 24); // 24 - size of "object" structure
+                                continue;
+
+                            // another object, jump out of header extension handling
+                            default:
+                                break(2);
+
+                        }
+                    }
+
+                    break;
+                default:
+                    // var_dump($object_type);
+                    break(2);
             }
 
-            break;
+            if (!in_array($object_type, array(self::FILE_PROPERTIES, self::STREAM_BITRATE_PROPERTIES, self::STREAM_PROPERTIES, self::HEADER_EXTENSION))) break;
         }
-        var_dump($header);
     }
 
-    public function countStreams() {}
-    public function countVideoStreams() {}
-    public function countAudioStreams() {}
-    public function getStreams() {}
+    protected function stringToUUid($object_uuid_string) {
+        $object_uuid = null;
+        for ($i = 0; $i < 16; $i++)
+            $object_uuid .= str_pad(dechex(ord($object_uuid_string[$i])), 2, '0', STR_PAD_LEFT);
+        return $object_uuid;
+    }
+
+    public function countStreams() {
+        return count($this->streams);
+    }
+
+    public function countVideoStreams() {
+        $count = 0;
+        foreach ($this->streams as $stream)
+            if ($stream['type'] == ContainerAdapter::VIDEO) $count++;
+        return $count;
+    }
+
+    public function countAudioStreams() {
+        $count = 0;
+        foreach ($this->streams as $stream)
+            if ($stream['type'] == ContainerAdapter::AUDIO) $count++;
+        return $count;
+    }
+
+    public function getStreams() {
+        return $this->streams;
+    }
 }

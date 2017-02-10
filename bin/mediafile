@@ -5,6 +5,10 @@ use wapmorgan\MediaFile\MediaFile;
 
 if ($argc == 1) die('Usage: '.__FILE__.' <files...>'.PHP_EOL);
 array_shift($argv);
+if (in_array('--debug', $argv)) {
+    define('DEBUG', true);
+    unset($argv[array_search('--debug', $argv)]);
+}
 
 foreach ($argv as $file) {
     try {

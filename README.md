@@ -2,24 +2,16 @@
 
 Allows you easily get meta information about any media file with unified interface.
 
+[![Composer package](http://xn--e1adiijbgl.xn--p1acf/badge/wapmorgan/media-file)](https://packagist.org/packages/wapmorgan/media-file)
+[![Latest Stable Version](https://poser.pugx.org/wapmorgan/media-file/v/stable)](https://packagist.org/packages/wapmorgan/media-file)
+[![License](https://poser.pugx.org/wapmorgan/media-file/license)](https://packagist.org/packages/wapmorgan/media-file)
+[![Latest Unstable Version](https://poser.pugx.org/wapmorgan/media-file/v/unstable)](https://packagist.org/packages/wapmorgan/media-file)
+
 It can retrieve following information:
 
-- For any audio:
-  - length
-  - bitRate
-  - sampleRate
-  - channels
-
-- For any video:
-  - length
-  - width
-  - height
-  - frameRate
-
-- For any container:
-  - number of streams
-  - type of streams
-  - formats of streams
+- For any audio: length, bitRate, sampleRate, channels
+- For any video: length, width, height, frameRate
+- For any container: number of streams, type of streams, formats of streams
 
 1. Usage
 2. Supported formats

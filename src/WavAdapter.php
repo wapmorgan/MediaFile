@@ -9,11 +9,6 @@ class WavAdapter implements AudioAdapter {
     protected $wav;
     protected $metadata;
 
-    static protected $channelModes = array(
-        1 => self::MONO,
-        2 => self::STEREO,
-    );
-
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;

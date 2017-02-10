@@ -13,12 +13,6 @@ class WmaAdapter extends AsfAdapter implements AudioAdapter {
     protected $sampleRate;
     protected $channels;
 
-    static protected $channelModes = array(
-        1 => self::MONO,
-        2 => self::STEREO,
-        6 => self::SIX,
-    );
-
     protected function scan() {
         parent::scan();
         $this->length = $this->properties['send_length'];

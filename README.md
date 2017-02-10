@@ -86,34 +86,33 @@ Available formats:
 
 `wapmorgan\MediaFile\AudioAdapter`
 
-| Method                | Description                                                       | Notes                                                                                                                                                                                                                                                                                  |
-|-----------------------|-------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `getLength()`         | Returns audio length in seconds and microseconds as _float_.      |                                                                                                                                                                                                                                                                                        |
-| `getBitRate()`        | Returns audio bit rate as _int_.                                  |                                                                                                                                                                                                                                                                                        |
-| `getSampleRate()`     | Returns audio sampling rate as _int_.                             |                                                                                                                                                                                                                                                                                        |
-| `getChannels()`       | Returns number of channels used in audio as _int_.                |                                                                                                                                                                                                                                                                                        |
-| `getChannelsMode()`   | Returns channes mode as sum of few `AudioAdapter` constants.      | Available modes: `AudioAdapter::MONO`, `AudioAdapter::STEREO`, `AudioAdapter::QUADRO`, `AudioAdapter::FIVE`, `AudioAdapter::SIX`, `AudioAdapter::SEVEN`, `AudioAdapter::EIGHT`. You can check that audio has two channels by binary comparation with `AudioAdapter::STEREO` constant.  |
-| `isVariableBitRate()` | Returns whether format support VBR and file has VBR as _boolean_. |                                                                                                                                                                                                                                                                                        |
-| `isLossless()`        | Returns whether format has compression lossless as _boolean_.     |                                                                                                                                                                                                                                                                                        |
+| Method                | Description                                                       |
+|-----------------------|-------------------------------------------------------------------|
+| `getLength()`         | Returns audio length in seconds and microseconds as _float_.      |
+| `getBitRate()`        | Returns audio bit rate as _int_.                                  |
+| `getSampleRate()`     | Returns audio sampling rate as _int_.                             |
+| `getChannels()`       | Returns number of channels used in audio as _int_.                |
+| `isVariableBitRate()` | Returns whether format support VBR and file has VBR as _boolean_. |
+| `isLossless()`        | Returns whether format has compression lossless as _boolean_.     |
 
 ### VideoAdapter
 
 `wapmorgan\MediaFile\VideoAdapter`
 
-| Method           | Description                                                  | Notes |
-|------------------|--------------------------------------------------------------|-------|
-| `getLength()`    | Returns video length in seconds and microseconds as _float_. |       |
-| `getWidth()`     | Returns width of video as _int_.                             |       |
-| `getHeight()`    | Returns height of video as _int_.                            |       |
-| `getFramerate()` | Returns video frame rate of video as _int_.                  |       |
+| Method           | Description                                                  |
+|------------------|--------------------------------------------------------------|
+| `getLength()`    | Returns video length in seconds and microseconds as _float_. |
+| `getWidth()`     | Returns width of video as _int_.                             |
+| `getHeight()`    | Returns height of video as _int_.                            |
+| `getFramerate()` | Returns video frame rate of video as _int_.                  |
 
 ### ContainerAdapter
 
 `wapmorgan\MediaFile\ContainerAdapter`
 
-| Method                | Description                                      | Notes |
-|-----------------------|--------------------------------------------------|-------|
-| `countStreams()`      | Returns number of streams in container as _int_. |       |
-| `countVideoStreams()` | Returns number of video streams as _int_.        |       |
-| `countAudioStreams()` | Returns number of audio streams as _int_.        |       |
-| `getStreams()`        | Returns streams information as _array_.          |       |
+| Method                | Description                                      |
+|-----------------------|--------------------------------------------------|
+| `countStreams()`      | Returns number of streams in container as _int_. |
+| `countVideoStreams()` | Returns number of video streams as _int_.        |
+| `countAudioStreams()` | Returns number of audio streams as _int_.        |
+| `getStreams()`        | Returns streams information as _array_.          |

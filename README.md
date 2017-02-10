@@ -65,6 +65,7 @@ try {
 - Video
   - avi (also as container)
   - wmv (also as container)
+  - mp4 (also as container)
 
 # API
 
@@ -95,8 +96,8 @@ Available formats:
 
 2. For `MediaFile::VIDEO`:
 
-  | `MediaFile::AVI` | `MediaFile::WMV` |
-  |------------------|------------------|
+  | `MediaFile::AVI` | `MediaFile::WMV` | `MediaFile::MP4` |
+  |------------------|------------------|------------------|
 
 ### AudioAdapter
 
@@ -135,14 +136,15 @@ Available formats:
 
 # Technical information
 
-| Format | Full format name                               | Specifications                                                                               | Notes                                 |
-|--------|------------------------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------|
-| aac    | MPEG 4 Part 12 with audio                      | http://l.web.umkc.edu/lizhu/teaching/2016sp.video-communication/ref/mp4.pdf                  | Does not provide support of MPEG2-AAC |
-| amr    | AMR-NB                                         | http://hackipedia.org/File%20formats/Containers/AMR,%20Adaptive%20MultiRate/AMR%20format.pdf | Does not provide support of AMR-WB    |
-| avi    | -                                              | http://www.alexander-noe.com/video/documentation/avi.pdf                                     |                                       |
-| flac   | -                                              | -                                                                                            | Support based on third-party library  |
-| mp3    | MPEG 1/2 Layer 1/2/3                           | https://github.com/wapmorgan/mp3info#technical-information                                   |                                       |
-| ogg    | Ogg container with Vorbis audio                | https://xiph.org/vorbis/doc/Vorbis_I_spec.html                                               |                                       |
-| wav    | -                                              | -                                                                                            | Support based on third-party library  |
-| wma    | ASF container with only one audio stream       | http://go.microsoft.com/fwlink/p/?linkid=31334                                               |                                       |
-| wmv    | ASF container with few audio and video streams | http://go.microsoft.com/fwlink/p/?linkid=31334                                               |                                       |
+| Format | Full format name                                             | Specifications                                                                                                                                                                                                     | Notes                                 |
+|--------|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------|
+| aac    | MPEG 4 Part 12 container with audio only                     | http://l.web.umkc.edu/lizhu/teaching/2016sp.video-communication/ref/mp4.pdf                                                                                                                                        | Does not provide support of MPEG2-AAC |
+| amr    | AMR-NB                                                       | http://hackipedia.org/File%20formats/Containers/AMR,%20Adaptive%20MultiRate/AMR%20format.pdf                                                                                                                       | Does not provide support of AMR-WB    |
+| avi    | -                                                            | http://www.alexander-noe.com/video/documentation/avi.pdf                                                                                                                                                           |                                       |
+| flac   | -                                                            | -                                                                                                                                                                                                                  | Support based on third-party library  |
+| mp3    | MPEG 1/2 Layer 1/2/3                                         | https://github.com/wapmorgan/mp3info#technical-information                                                                                                                                                         |                                       |
+| mp4    | MPEG 4 Part 12/14 container with few audio and video streams | Part 12 specification: http://l.web.umkc.edu/lizhu/teaching/2016sp.video-communication/ref/mp4.pdf Part 14 extension: https://www.cmlab.csie.ntu.edu.tw/~cathyp/eBooks/14496_MPEG4/ISO_IEC_14496-14_2003-11-15.pdf |                                       |
+| ogg    | Ogg container with Vorbis audio                              | https://xiph.org/vorbis/doc/Vorbis_I_spec.html                                                                                                                                                                     |                                       |
+| wav    | -                                                            | -                                                                                                                                                                                                                  | Support based on third-party library  |
+| wma    | ASF container with only one audio stream                     | http://go.microsoft.com/fwlink/p/?linkid=31334                                                                                                                                                                     |                                       |
+| wmv    | ASF container with few audio and video streams               | http://go.microsoft.com/fwlink/p/?linkid=31334                                                                                                                                                                     |                                       |

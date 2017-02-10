@@ -49,8 +49,8 @@ try {
     echo 'Sample rate: '.$media->getAudio()->getSampleRate().PHP_EOL;
     echo 'Channels: '.$media->getAudio()->getChannels().PHP_EOL;
   }
-} catch (Exception $e) {
-  // not a media
+} catch (wapmorgan\MediaFile\Exception $e) {
+  // not a media or file is corrupted
 }
 ```
 

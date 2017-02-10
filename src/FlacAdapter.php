@@ -8,17 +8,6 @@ class FlacAdapter implements AudioAdapter {
     protected $filename;
     protected $flac;
 
-    static protected $channelModes = array(
-        1 => self::MONO,
-        2 => self::STEREO,
-        3 => self::TRIPLE,
-        4 => self::QUADRO,
-        5 => self::FIVE,
-        6 => self::SIX,
-        7 => self::SEVEN,
-        8 => self::EIGHT,
-    );
-
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
@@ -37,8 +26,8 @@ class FlacAdapter implements AudioAdapter {
         return $this->flac->streamSampleRate;
     }
 
-    public function getChannelsMode() {
-        return self::$channelModes[$this->flac->streamChannels];
+    public function getChannels() {
+        return $this->flac->streamChannels;
     }
 
     public function isVariableBitRate() {

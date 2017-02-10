@@ -97,8 +97,8 @@ class OggAdapter implements AudioAdapter {
         return $this->header['sample_rate'];
     }
 
-    public function getChannelsMode() {
-        return self::$channelModes[$this->header['channels']];
+    public function getChannels() {
+        return $this->header['channels'];
     }
 
     public function isVariableBitRate() {

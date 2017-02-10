@@ -8,7 +8,7 @@ It can retrieve following information:
   - length
   - bitRate
   - sampleRate
-  - channelsMode
+  - channels
 
 - For any video:
   - length
@@ -46,7 +46,7 @@ try {
     echo 'Duration: '.$media->getAudio()->getLength().PHP_EOL;
     echo 'Bit rate: '.$media->getAudio()->getBitRate().PHP_EOL;
     echo 'Sample rate: '.$media->getAudio()->getSampleRate().PHP_EOL;
-    echo 'Channels: '.$media->getAudio()->getChannelsMode().PHP_EOL;
+    echo 'Channels: '.$media->getAudio()->getChannels().PHP_EOL;
   }
 } catch (Exception $e) {
   // not a media
@@ -86,14 +86,15 @@ Available formats:
 
 `wapmorgan\MediaFile\AudioAdapter`
 
-| Method                | Description                                                       | Notes                                                                                                                                                                          |
-|-----------------------|-------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `getLength()`         | Returns audio length in seconds and microseconds as _float_.      |                                                                                                                                                                                |
-| `getBitRate()`        | Returns audio bit rate as _int_.                                  |                                                                                                                                                                                |
-| `getSampleRate()`     | Returns audio sampling rate as _int_.                             |                                                                                                                                                                                |
-| `getChannelsMode()`   | Returns channes mode as one of `AudioAdapter` constant.           | Available modes: `AudioAdapter::MONO`, `AudioAdapter::STEREO`, `AudioAdapter::QUADRO`, `AudioAdapter::FIVE`, `AudioAdapter::SIX`, `AudioAdapter::SEVEN`, `AudioAdapter::EIGHT` |
-| `isVariableBitRate()` | Returns whether format support VBR and file has VBR as _boolean_. |                                                                                                                                                                                |
-| `isLossless()`        | Returns whether format has compression lossless as _boolean_.     |                                                                                                                                                                                |
+| Method                | Description                                                       | Notes                                                                                                                                                                                                                                                                                  |
+|-----------------------|-------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `getLength()`         | Returns audio length in seconds and microseconds as _float_.      |                                                                                                                                                                                                                                                                                        |
+| `getBitRate()`        | Returns audio bit rate as _int_.                                  |                                                                                                                                                                                                                                                                                        |
+| `getSampleRate()`     | Returns audio sampling rate as _int_.                             |                                                                                                                                                                                                                                                                                        |
+| `getChannels()`       | Returns number of channels used in audio as _int_.                |                                                                                                                                                                                                                                                                                        |
+| `getChannelsMode()`   | Returns channes mode as sum of few `AudioAdapter` constants.      | Available modes: `AudioAdapter::MONO`, `AudioAdapter::STEREO`, `AudioAdapter::QUADRO`, `AudioAdapter::FIVE`, `AudioAdapter::SIX`, `AudioAdapter::SEVEN`, `AudioAdapter::EIGHT`. You can check that audio has two channels by binary comparation with `AudioAdapter::STEREO` constant.  |
+| `isVariableBitRate()` | Returns whether format support VBR and file has VBR as _boolean_. |                                                                                                                                                                                                                                                                                        |
+| `isLossless()`        | Returns whether format has compression lossless as _boolean_.     |                                                                                                                                                                                                                                                                                        |
 
 ### VideoAdapter
 

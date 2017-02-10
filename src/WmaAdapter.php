@@ -45,7 +45,7 @@ class WmaAdapter extends AsfAdapter implements AudioAdapter {
     }
 
     public function getChannelsMode() {
-        return self::$channelModes[$this->channels];
+        return $this->channels;
     }
 
     public function isVariableBitRate() {

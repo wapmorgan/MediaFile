@@ -16,11 +16,6 @@ class AacAdapter implements AudioAdapter {
     protected $stsd_audio;
     protected $mdat;
 
-    static protected $channelModes = array(
-        1 => self::MONO,
-        2 => self::STEREO,
-    );
-
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
@@ -215,8 +210,8 @@ class AacAdapter implements AudioAdapter {
         return $this->mvhd['timescale'];
     }
 
-    public function getChannelsMode() {
-        return self::$channelModes[$this->stsd_audio['channelCount']];
+    public function getChannels() {
+        return $this->stsd_audio['channelCount'];
     }
 
     public function isVariableBitRate() {

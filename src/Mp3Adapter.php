@@ -8,6 +8,17 @@ class Mp3Adapter implements AudioAdapter {
     protected $filename;
     protected $mp3;
 
+    static protected $channelModes = array(
+        1 => self::MONO,
+        2 => self::STEREO,
+        3 => self::TRIPLE,
+        4 => self::QUADRO,
+        5 => self::FIVE,
+        6 => self::SIX,
+        7 => self::SEVEN,
+        8 => self::EIGHT,
+    );
+
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
@@ -26,8 +37,8 @@ class Mp3Adapter implements AudioAdapter {
         return $this->mp3->sampleRate;
     }
 
-    public function getChannelsMode() {
-        return $this->mp3->channel;
+    public function getChannels() {
+        return $this->mp3->channel == 'mono' : 1 : 2;
     }
 
     public function isVariableBitRate() {

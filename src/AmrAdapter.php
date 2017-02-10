@@ -80,6 +80,10 @@ class AmrAdapter implements AudioAdapter {
     }
 
     public function getChannelsMode() {
+        return 1;
+    }
+
+    public function getChannelsMode() {
         return self::MONO;
     }
 

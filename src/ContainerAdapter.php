@@ -3,11 +3,19 @@ namespace wapmorgan\MediaFile;
 
 /**
  * Containers should store some basic information about all streams:
- * for video:
+ * - type
+ * - codec
  * - length
+ *
+ * for videos:
  * - width
  * - height
  * - framerate
+ *
+ * for audios:
+ * - channels
+ * - sample_rate
+ * - bit_rate
  */
 interface ContainerAdapter {
     const AUDIO = 'audio';

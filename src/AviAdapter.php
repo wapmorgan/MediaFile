@@ -137,12 +137,15 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
                     'type' => self::$streamTypes[$strh['type']],
                     'codec' => $strh['codec'],
                     'length' => $strh['length'] / $strh['rate'] / $strh['scale'],
-                    'framerate' => $strh['rate'] / $strh['scale'],
                 );
 
                 if ($strh['type'] == 'vids') {
-                    if (empty($this->length)) $this->length = $this->streams[$i]['length'];
-                    if (empty($this->framerate)) $this->framerate = $this->streams[$i]['framerate'];
+                    if (empty($this->length)) {
+                        $this->streams[$i]['framerate'] = $strh['rate'] / $strh['scale'];
+                        $this->length = $this->streams[$i]['length'];
+                        $this->framerate = $this->streams[$i]['framerate'];
+                    }
+
                 }
             }
 

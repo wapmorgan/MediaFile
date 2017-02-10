@@ -13,6 +13,8 @@ It can retrieve following information:
 - For any video: length, width, height, frameRate
 - For any container: number of streams, type of streams, formats of streams
 
+Table of contents:
+
 1. Usage
 2. Supported formats
 3. API
@@ -58,6 +60,8 @@ try {
   - avi (also as container)
   - wmv (also as container)
   - mp4 (also as container)
+
+Other formats support coming soon.
 
 # API
 

@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use wapmorgan\BinaryStream\BinaryStream;
 
 /**
@@ -36,7 +35,7 @@ class AmrAdapter implements AudioAdapter {
     );
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->stream = new BinaryStream($filename);
         $this->stream->saveGroup('frame', array(
@@ -49,7 +48,7 @@ class AmrAdapter implements AudioAdapter {
 
     protected function scan() {
         if (!$this->stream->compare(5, '#!AMR'))
-            throw new Exception('File is not an amr file!');
+            throw new ParsingException('File is not an amr file!');
         $this->stream->readString(6);
 
         $bitrates = array();
@@ -79,12 +78,8 @@ class AmrAdapter implements AudioAdapter {
         return 8000;
     }
 
-    public function getChannelsMode() {
+    public function getChannels() {
         return 1;
-    }
-
-    public function getChannelsMode() {
-        return self::MONO;
     }
 
     public function isVariableBitRate() {

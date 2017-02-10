@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use wapmorgan\BinaryStream\BinaryStream;
 
 /**

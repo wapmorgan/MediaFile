@@ -1,8 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use \Exception;
-
 class MediaFile {
     const AUDIO = 'audio';
     const VIDEO = 'video';
@@ -25,7 +23,7 @@ class MediaFile {
     public $adapter;
 
     static public function open($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
 
         // by extension
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
@@ -75,7 +73,7 @@ class MediaFile {
                     break;
 
                 default:
-                    throw new Exception('Unknown file extension "'.$ext.'"!');
+                    throw new FileAccessException('Unknown file extension "'.$ext.'"!');
             }
         }
         // by binary tag
@@ -84,8 +82,8 @@ class MediaFile {
     }
 
     public function __construct($filename, $type, $format) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
-        if (!in_array($type, array(self::AUDIO, self::VIDEO))) throw new Exception('Type "'.$type.'" is not applicable!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
+        if (!in_array($type, array(self::AUDIO, self::VIDEO))) throw new FileAccessException('Type "'.$type.'" is not applicable!');
 
 
 
@@ -114,7 +112,7 @@ class MediaFile {
                     break;
 
                 default:
-                    throw new Exception('Type "'.$type.'" does not have format "'.$format.'"!');
+                    throw new FileAccessException('Type "'.$type.'" does not have format "'.$format.'"!');
             }
         } else {
             switch ($format) {
@@ -129,7 +127,7 @@ class MediaFile {
                     break;
 
                 default:
-                    throw new Exception('Type "'.$type.'" does not have format "'.$format.'"!');
+                    throw new FileAccessException('Type "'.$type.'" does not have format "'.$format.'"!');
             }
         }
 
@@ -167,6 +165,6 @@ class MediaFile {
         if ($this->type == self::VIDEO)
             return $this->adapter;
         else
-            throw new Exception('This is not a video file!');
+            throw new FileAccessException('This is not a video file!');
     }
 }

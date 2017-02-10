@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use wapmorgan\BinaryStream\BinaryStream;
 
 /**
@@ -13,7 +12,7 @@ class OggAdapter implements AudioAdapter {
     protected $header;
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->stream = new BinaryStream($filename);
         $this->stream->saveGroup('ogg_page', array(

@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use wapmorgan\BinaryStream\BinaryStream;
 
 /**
@@ -104,7 +103,7 @@ class AsfAdapter implements ContainerAdapter {
     );
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->stream = new BinaryStream($filename);
         $this->stream->saveGroup('object', array(
@@ -225,7 +224,7 @@ class AsfAdapter implements ContainerAdapter {
 
     protected function scan() {
         if (!$this->stream->compare(16, array(0x30, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C)))
-            throw new Exception('This file is not an ASF file!');
+            throw new ParsingException('This file is not an ASF file!');
 
         $header = $this->stream->readGroup('header_object');
 

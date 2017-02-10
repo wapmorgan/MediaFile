@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use BoyHagemann\Wave\Wave;
 
 class WavAdapter implements AudioAdapter {
@@ -10,7 +9,7 @@ class WavAdapter implements AudioAdapter {
     protected $metadata;
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->wav = new Wave();
         $this->wav->setFilename($filename);

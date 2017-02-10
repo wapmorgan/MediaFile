@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use wapmorgan\BinaryStream\BinaryStream;
 
 /**
@@ -33,7 +32,7 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
     );
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->stream = new BinaryStream($filename);
         // $this->stream->setEndian(BinaryStream::BIG);
@@ -106,11 +105,11 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
         $list = $this->stream->readGroup('list');
         // initial list (RIFF or LIST)
         if (!in_array($list['list'], array('RIFF', 'LIST')))
-            throw new Exception('Avi file should start with a list!');
+            throw new ParsingException('Avi file should start with a list!');
         // following LIST
         $next = $this->stream->readGroup('list');
         if (!$next['list'] == 'LIST' || !$next['tag'] == 'hdrl')
-            throw new Exception('Avi does not have header list!');
+            throw new ParsingException('Avi does not have header list!');
 
         // avih
         $avih = $this->stream->readGroup('chunk');
@@ -123,7 +122,7 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
             $strl = $this->stream->readGroup('list');
             // var_dump($strl);
             if ($strl['list'] != 'LIST' || $strl['tag'] != 'strl')
-                throw new Exception('Here should be "strl" tag!');
+                throw new ParsingException('Here should be "strl" tag!');
             $this->stream->mark('stream_'.$i.'_start');
 
             // strh

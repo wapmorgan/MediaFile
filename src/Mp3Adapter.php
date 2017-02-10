@@ -1,15 +1,14 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use wapmorgan\Mp3Info\Mp3Info;
 
-class Mp3Adapter extends AudioAdapter {
+class Mp3Adapter implements AudioAdapter {
     protected $filename;
     protected $mp3;
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->mp3 = new Mp3Info($filename);
     }
@@ -27,7 +26,7 @@ class Mp3Adapter extends AudioAdapter {
     }
 
     public function getChannels() {
-        return $this->mp3->channel == 'mono' : 1 : 2;
+        return $this->mp3->channel == 'mono' ? 1 : 2;
     }
 
     public function isVariableBitRate() {

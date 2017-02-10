@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use wapmorgan\BinaryStream\BinaryStream;
 
 /**
@@ -17,7 +16,7 @@ class AacAdapter implements AudioAdapter {
     protected $mdat;
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->stream = new BinaryStream($filename);
         $this->stream->setEndian(BinaryStream::BIG);
@@ -43,7 +42,7 @@ class AacAdapter implements AudioAdapter {
     protected function scan() {
         $ftyp = $this->stream->readGroup('ftyp_box');
         if ($ftyp['type'] != 'ftyp')
-            throw new Exception('This file is not an MPEG-4 Part 12/14 container!');
+            throw new ParsingException('This file is not an MPEG-4 Part 12/14 container!');
 
         $compatible_count = ($ftyp['size'] - 16) / 4;
         for ($i = 0; $i < $compatible_count; $i++)
@@ -52,11 +51,11 @@ class AacAdapter implements AudioAdapter {
         $this->stream->mark('moov');
         $moov = $this->stream->readGroup('box_header');
         if ($moov['type'] != 'moov')
-            throw new Exception('This file does not have "moov" box!');
+            throw new ParsingException('This file does not have "moov" box!');
 
         $mvhd = $this->stream->readGroup('full_box_header');
         if ($mvhd['type'] != 'mvhd')
-            throw new Exception('This file does not have "mvhd" box!');
+            throw new ParsingException('This file does not have "mvhd" box!');
         $mvhd += $this->stream->readGroup(array(
             'i:creation_time' => ($mvhd['version'] == 0 ? 32 : 64),
             'i:modification_time' => ($mvhd['version'] == 0 ? 32 : 64),
@@ -71,11 +70,11 @@ class AacAdapter implements AudioAdapter {
 
         $trak = $this->stream->readGroup('box_header');
         if ($trak['type'] != 'trak')
-            throw new Exception('This file does not have "trak" box!');
+            throw new ParsingException('This file does not have "trak" box!');
 
         $tkhd = $this->stream->readGroup('full_box_header');
         if ($tkhd['type'] != 'tkhd')
-            throw new Exception('This file does not have "tkhd" box!');
+            throw new ParsingException('This file does not have "tkhd" box!');
         $tkhd += $this->stream->readGroup(array(
             'i:creation_time' => ($tkhd['version'] == 0 ? 32 : 64),
             'i:modification_time' => ($tkhd['version'] == 0 ? 32 : 64),
@@ -93,11 +92,11 @@ class AacAdapter implements AudioAdapter {
 
         $mdia = $this->stream->readGroup('box_header');
         if ($mdia['type'] != 'mdia')
-            throw new Exception('This file does not have "mdia" box!');
+            throw new ParsingException('This file does not have "mdia" box!');
 
         $mdhd = $this->stream->readGroup('full_box_header');
         if ($mdhd['type'] != 'mdhd')
-            throw new Exception('This file does not have "mdhd" box!');
+            throw new ParsingException('This file does not have "mdhd" box!');
 
         $mdhd += $this->stream->readGroup(array(
             'i:creation_time' => ($mdhd['version'] == 0 ? 32 : 64),
@@ -110,7 +109,7 @@ class AacAdapter implements AudioAdapter {
 
         $hdlr = $this->stream->readGroup('full_box_header');
         if ($hdlr['type'] != 'hdlr')
-            throw new Exception('This file does not have "hdlr" box!');
+            throw new ParsingException('This file does not have "hdlr" box!');
         $hdlr += $this->stream->readGroup(array(
             'i:defined' => 32,
             's:handler_type' => 4,
@@ -120,11 +119,11 @@ class AacAdapter implements AudioAdapter {
 
         $minf = $this->stream->readGroup('box_header');
         if ($minf['type'] != 'minf')
-            throw new Exception('This file does not have "minf" box!');
+            throw new ParsingException('This file does not have "minf" box!');
 
         $smhd = $this->stream->readGroup('full_box_header');
         if ($smhd['type'] != 'smhd')
-            throw new Exception('This file does not have "smhd" box!');
+            throw new ParsingException('This file does not have "smhd" box!');
         $smhd += $this->stream->readGroup(array(
             'i:balance' => 16,
             'i:_' => 16,
@@ -136,11 +135,11 @@ class AacAdapter implements AudioAdapter {
             $box = $this->stream->readGroup('box_header');
         }
         if ($box['type'] != 'stbl')
-            throw new Exception('This file does not have "stbl" box!');
+            throw new ParsingException('This file does not have "stbl" box!');
 
         $box = $this->stream->readGroup('full_box_header');
         if ($box['type'] != 'stsd')
-            throw new Exception('This file does not have "stsd" box!');
+            throw new ParsingException('This file does not have "stsd" box!');
         $box['entry_count'] = $this->stream->readInteger(32);
 
         $box = $this->stream->readGroup('box_header');

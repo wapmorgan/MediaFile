@@ -1,7 +1,6 @@
 <?php
 namespace wapmorgan\MediaFile;
 
-use Exception;
 use Flac;
 
 class FlacAdapter implements AudioAdapter {
@@ -9,7 +8,7 @@ class FlacAdapter implements AudioAdapter {
     protected $flac;
 
     public function __construct($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new Exception('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
         $this->flac = new Flac($filename);
     }

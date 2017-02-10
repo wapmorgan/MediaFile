@@ -16,6 +16,7 @@ class WmaAdapter extends AsfAdapter implements AudioAdapter {
     protected function scan() {
         parent::scan();
         $this->length = $this->properties['send_length'];
+        if (defined('DEBUG') && DEBUG) var_dump($this->streams);
         foreach ($this->streams as $stream) {
             if ($stream['type'] == ContainerAdapter::AUDIO) {
                 $this->bitRate = $stream['bit_rate'];
@@ -38,7 +39,7 @@ class WmaAdapter extends AsfAdapter implements AudioAdapter {
         return $this->sampleRate;
     }
 
-    public function getChannelsMode() {
+    public function getChannels() {
         return $this->channels;
     }
 

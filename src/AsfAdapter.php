@@ -242,6 +242,7 @@ class AsfAdapter implements ContainerAdapter {
             }
 
             $object_type = array_search($object_uuid, self::$uuids);
+            if (defined('DEBUG') && DEBUG) var_dump($object_type);
             switch ($object_type) {
                 case self::FILE_PROPERTIES:
                     $file_properties = $this->stream->readGroup('file_properties_object');
@@ -382,11 +383,11 @@ class AsfAdapter implements ContainerAdapter {
                     continue;
 
                 default:
-                    var_dump($object_type);
+                    if (defined('DEBUG') && DEBUG) var_dump($object_type);
                     break(2);
             }
 
-            if (!in_array($object_type, array(self::FILE_PROPERTIES, self::STREAM_BITRATE_PROPERTIES, self::STREAM_PROPERTIES, self::HEADER_EXTENSION))) break;
+            // if (!in_array($object_type, array(self::FILE_PROPERTIES, self::STREAM_BITRATE_PROPERTIES, self::STREAM_PROPERTIES, self::HEADER_EXTENSION))) break;
         }
     }
 

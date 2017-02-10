@@ -49,6 +49,13 @@ try {
     echo 'Sample rate: '.$media->getAudio()->getSampleRate().PHP_EOL;
     echo 'Channels: '.$media->getAudio()->getChannels().PHP_EOL;
   }
+  // for video
+  else {
+    // calls to VideoAdapter interface
+    echo 'Duration: '.$media->getVideo()->getLength().PHP_EOL;
+    echo 'Dimensions: '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().PHP_EOL;
+    echo 'Framerate: '.$media->getVideo()->getFramerate().PHP_EOL;
+  }
 } catch (wapmorgan\MediaFile\Exception $e) {
   // not a media or file is corrupted
 }

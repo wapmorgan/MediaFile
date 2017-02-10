@@ -21,22 +21,12 @@ It can retrieve following information:
   - type of streams
   - formats of streams
 
-Supported formats:
+1. Usage
+2. Supported formats
+3. API
+4. Technical details
 
-- Audio
-  - wav
-  - flac
-  - aac
-  - ogg
-  - mp3
-  - amr
-  - wma
-
-- Video
-  - avi (also as container)
-  - wmv (also as container)
-
-How to use:
+# Usage
 
 ```php
 try {
@@ -61,7 +51,23 @@ try {
 }
 ```
 
+# Supported formats
+
+- Audio
+  - wav
+  - flac
+  - aac
+  - ogg
+  - mp3
+  - amr
+  - wma
+
+- Video
+  - avi (also as container)
+  - wmv (also as container)
+
 # API
+
 ### MediaFile
 
 `wapmorgan\wapmorgan\MediaFile`
@@ -126,3 +132,17 @@ Available formats:
 | `countVideoStreams()` | Returns number of video streams as _int_.        |
 | `countAudioStreams()` | Returns number of audio streams as _int_.        |
 | `getStreams()`        | Returns streams information as _array_.          |
+
+# Technical information
+
+| Format | Full format name                               | Specifications                                                                               | Notes                                 |
+|--------|------------------------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------|
+| aac    | MPEG 4 Part 12 with audio                      | http://l.web.umkc.edu/lizhu/teaching/2016sp.video-communication/ref/mp4.pdf                  | Does not provide support of MPEG2-AAC |
+| amr    | AMR-NB                                         | http://hackipedia.org/File%20formats/Containers/AMR,%20Adaptive%20MultiRate/AMR%20format.pdf | Does not provide support of AMR-WB    |
+| avi    | -                                              | http://www.alexander-noe.com/video/documentation/avi.pdf                                     |                                       |
+| flac   | -                                              | -                                                                                            | Support based on third-party library  |
+| mp3    | MPEG 1/2 Layer 1/2/3                           | https://github.com/wapmorgan/mp3info#technical-information                                   |                                       |
+| ogg    | Ogg container with Vorbis audio                | https://xiph.org/vorbis/doc/Vorbis_I_spec.html                                               |                                       |
+| wav    | -                                              | -                                                                                            | Support based on third-party library  |
+| wma    | ASF container with only one audio stream       | http://go.microsoft.com/fwlink/p/?linkid=31334                                               |                                       |
+| wmv    | ASF container with few audio and video streams | http://go.microsoft.com/fwlink/p/?linkid=31334                                               |                                       |

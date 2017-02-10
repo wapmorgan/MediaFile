@@ -1,6 +1,8 @@
 #!/usr/bin/php
 <?php
 require __DIR__.'/../vendor/autoload.php';
+use wapmorgan\MediaFile\FileAccessException;
+use wapmorgan\MediaFile\ParsingException;
 use wapmorgan\MediaFile\MediaFile;
 
 if ($argc == 1) die('Usage: '.__FILE__.' <files...>'.PHP_EOL);
@@ -24,6 +26,10 @@ foreach ($argv as $file) {
             echo $file.' '.$media->getType().':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().' '.$media->getVideo()->getFramerate().'fps'.PHP_EOL;
         }
     } catch (Exception $e) {
-        echo 'File '.$file.' is not a media file'.PHP_EOL;
+        if ($e instanceof FileAccessException)
+            echo 'File '.$file.' is not a media file'.PHP_EOL;
+        else {
+            echo 'File is propably corrupted: '.$e->getMessage().PHP_EOL;
+        }
     }
 }

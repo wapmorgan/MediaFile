@@ -16,6 +16,7 @@ class MediaFile {
     const AVI = 'avi';
     const ASF = 'asf';
     const WMV = 'wmv';
+    const MP4 = 'mp4';
 
     protected $filename;
     protected $type;
@@ -71,6 +72,10 @@ class MediaFile {
                     $type = self::VIDEO;
                     $format = self::WMV;
                     break;
+                case 'mp4':
+                    $type = self::VIDEO;
+                    $format = self::MP4;
+                    break;
 
                 default:
                     throw new FileAccessException('Unknown file extension "'.$ext.'"!');
@@ -124,6 +129,9 @@ class MediaFile {
                     break;
                 case self::WMV:
                     $this->adapter = new WmvAdapter($filename);
+                    break;
+                case self::MP4:
+                    $this->adapter = new Mp4Adapter($filename);
                     break;
 
                 default:

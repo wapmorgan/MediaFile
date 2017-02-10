@@ -30,6 +30,7 @@ Supported formats:
   - ogg
   - mp3
   - amr
+  - wma
 
 - Video
   - avi (also as container)
@@ -74,8 +75,10 @@ Available formats:
 
 1. For `MediaFile::AUDIO`:
 
-  | `MediaFile::WAV` | `MediaFile::FLAC` | `MediaFile::AAC` | `MediaFile::OGG` | `MediaFile::MP3` | `MediaFile::AMR` |
-  |------------------|-------------------|------------------|------------------|------------------|------------------|
+  | `MediaFile::WAV`     | `MediaFile::FLAC`    | `MediaFile::AAC`     | `MediaFile::OGG` |
+  |----------------------|----------------------|----------------------|------------------|
+  | **`MediaFile::MP3`** | **`MediaFile::AMR`** | **`MediaFile::WMA`** |                  |
+
 
 2. For `MediaFile::VIDEO`:
 

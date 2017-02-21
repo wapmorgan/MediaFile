@@ -78,8 +78,8 @@ Other formats support coming soon.
 | `isContainer()`                          | Returns true if media is also a container (can store multiple audios and videos). |                                                                                                         |
 | `getType()`                              | Returns media file type.                                                          |                                                                                                         |
 | `getFormat()`                            | Returns media file format.                                                        |                                                                                                         |
-| `getAudio()`                             | Returns an AudioAdapter interface for audio.                                      |                                                                                                         |
-| `getVideo()`                             | Returns an VideoAdapter interface for video.                                      |                                                                                                         |
+| `getAudio()`                             | Returns an `AudioAdapter` interface for audio.                                      |                                                                                                         |
+| `getVideo()`                             | Returns an `VideoAdapter` interface for video.                                      |                                                                                                         |
 
 Available formats:
 

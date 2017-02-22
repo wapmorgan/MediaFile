@@ -42,6 +42,11 @@ try {
   }
 } catch (wapmorgan\MediaFile\Exception $e) {
   // not a media or file is corrupted
+  if ($e instanceof wapmorgan\MediaFile\FileAccessException)
+      echo 'File '.$file.' is not a media file'.PHP_EOL;
+  else {
+      echo 'File is propably corrupted: '.$e->getMessage().PHP_EOL;
+  }
 }
 ```
 
@@ -94,6 +99,7 @@ Available formats:
 
   | `MediaFile::AVI` | `MediaFile::WMV` | `MediaFile::MP4` |
   |------------------|------------------|------------------|
+  |                  |                  |                  |
 
 ### AudioAdapter
 

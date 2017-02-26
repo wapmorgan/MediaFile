@@ -152,7 +152,7 @@ class Mpeg4Part12Adapter {
         if ($this->getNextBoxType() == 'mdat') {
             $this->stream->mark('mdat');;
             $this->mdat = $this->stream->readGroup('box_header');
-            $this->stream->skip($mdat['size'] - 8); // 8 - size of box header structure
+            $this->stream->skip($this->mdat['size'] - 8); // 8 - size of box header structure
         }
 
         $this->stream->mark('moov');

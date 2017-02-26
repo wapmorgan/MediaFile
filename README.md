@@ -1,3 +1,4 @@
+
 # MediaFile
 
 Allows you easily get meta information about any media file with unified interface.
@@ -18,7 +19,8 @@ Table of contents:
 1. Usage
 2. Supported formats
 3. API
-4. Technical details
+4. Why not using getID3?
+5. Technical details
 
 # Usage
 
@@ -135,6 +137,25 @@ Available formats:
 | `countVideoStreams()` | Returns number of video streams as _int_.        |
 | `countAudioStreams()` | Returns number of audio streams as _int_.        |
 | `getStreams()`        | Returns streams information as _array_.          |
+
+# Why not using getID3?
+
+getID3 library is very popular and has a lot of features, but it's old and slow.
+Following table shows comparation of analyzing speed of fixtures, distributed with first release of MediaFile:
+
+| File       | getID3 | MediaFile | Speed gain |
+|------------|--------|-----------|------------|
+| video.avi  | 0.215  | 0.126     | 1.71x      |
+| video.mp4  | 3.055  | 0.429     | 7.12x      |
+| video.wmv  | 0.354  | 0.372     | 0.95x      |
+| audio.aac  | 0.560  | 0.262     | 2.13x      |
+| audio.amr  | 8.241  | 12.248    | 0.67x      |
+| audio.flac | 1.880  | 0.071     | 26.41x     |
+| audio.m4a  | 13.372 | 0.169     | 79.14x     |
+| audio.mp3  | 10.931 | 0.077     | 141.54x    |
+| audio.ogg  | 0.170  | 0.096     | 1.78x      |
+| audio.wav  | 0.114  | 0.070     | 1.64x      |
+| audio.wma  | 0.195  | 0.158     | 1.23x      |
 
 # Technical information
 

@@ -1,6 +1,8 @@
 <?php
 namespace wapmorgan\MediaFile;
 
+use wapmorgan\FileTypeDetector\Detector;
+
 class MediaFile {
     const AUDIO = 'audio';
     const VIDEO = 'video';
@@ -27,61 +29,61 @@ class MediaFile {
         if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
 
         // by extension
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-        if (!empty($ext)) {
-            switch ($ext) {
-                case 'wav':
-                    $type = self::AUDIO;
-                    $format = self::WAV;
-                    break;
-                case 'flac':
-                    $type = self::AUDIO;
-                    $format = self::FLAC;
-                    break;
-                case 'aac':
-                case 'm4a':
-                    $type = self::AUDIO;
-                    $format = self::AAC;
-                    break;
-                case 'ogg':
-                    $type = self::AUDIO;
-                    $format = self::OGG;
-                    break;
-                case 'mp3':
-                    $type = self::AUDIO;
-                    $format = self::MP3;
-                    break;
-                case 'amr':
-                    $type = self::AUDIO;
-                    $format = self::AMR;
-                    break;
-                case 'wma':
-                    $type = self::AUDIO;
-                    $format = self::WMA;
-                    break;
-
-                case 'avi':
-                    $type = self::VIDEO;
-                    $format = self::AVI;
-                    break;
-                case 'asf':
-                    $type = self::VIDEO;
-                    $format = self::ASF;
-                    break;
-                case 'wmv':
-                    $type = self::VIDEO;
-                    $format = self::WMV;
-                    break;
-                case 'mp4':
-                    $type = self::VIDEO;
-                    $format = self::MP4;
-                    break;
-
-                default:
-                    throw new FileAccessException('Unknown file extension "'.$ext.'"!');
-            }
-        }
+        $type = Detector::detectByFilename($filename);
         // by binary tag
+        if ($type === false)
+            $type = Detector::detectByContent($filename);
+
+        switch ($type[1]) {
+            case Detector::WAV:
+                $type = self::AUDIO;
+                $format = self::WAV;
+                break;
+            case Detector::FLAC:
+                $type = self::AUDIO;
+                $format = self::FLAC;
+                break;
+            case Detector::AAC:
+                $type = self::AUDIO;
+                $format = self::AAC;
+                break;
+            case Detector::OGG:
+                $type = self::AUDIO;
+                $format = self::OGG;
+                break;
+            case Detector::MP3:
+                $type = self::AUDIO;
+                $format = self::MP3;
+                break;
+            case Detector::AMR:
+                $type = self::AUDIO;
+                $format = self::AMR;
+                break;
+            case Detector::WMA:
+                $type = self::AUDIO;
+                $format = self::WMA;
+                break;
+
+            case Detector::AVI:
+                $type = self::VIDEO;
+                $format = self::AVI;
+                break;
+            case Detector::ASF:
+                $type = self::VIDEO;
+                $format = self::ASF;
+                break;
+            case Detector::WMV:
+                $type = self::VIDEO;
+                $format = self::WMV;
+                break;
+            case Detector::MP4:
+                $type = self::VIDEO;
+                $format = self::MP4;
+                break;
+
+            default:
+                throw new FileAccessException('Unknown format for file "'.$filename.'"!');
+        }
 
         return new self($filename, $type, $format);
     }

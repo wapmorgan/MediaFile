@@ -1,7 +1,9 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
 
 use wapmorgan\BinaryStream\BinaryStream;
+use wapmorgan\MediaFile\ContainerAdapter;
+use wapmorgan\MediaFile\VideoAdapter;
 
 /**
  * WMV uses ASF as a container

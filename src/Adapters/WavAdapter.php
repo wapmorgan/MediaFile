@@ -1,7 +1,9 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
 
 use BoyHagemann\Wave\Wave;
+use wapmorgan\MediaFile\AudioAdapter;
+use wapmorgan\MediaFile\Exceptions\FileAccessException;
 
 class WavAdapter implements AudioAdapter {
     protected $filename;

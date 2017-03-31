@@ -7,18 +7,18 @@ class MediaFile {
     const AUDIO = 'audio';
     const VIDEO = 'video';
 
-    const WAV = 'wav';
-    const MP3 = 'mp3';
-    const FLAC = 'flac';
-    const AAC = 'aac';
-    const OGG = 'ogg';
-    const AMR = 'amr';
-    const WMA = 'wma';
+    const WAV = Detector::WAV;
+    const MP3 = Detector::MP3;
+    const FLAC = Detector::FLAC;
+    const AAC = Detector::AAC;
+    const OGG = Detector::OGG;
+    const AMR = Detector::AMR;
+    const WMA = Detector::WMA;
 
-    const AVI = 'avi';
-    const ASF = 'asf';
-    const WMV = 'wmv';
-    const MP4 = 'mp4';
+    const AVI = Detector::AVI;
+    const ASF = Detector::ASF;
+    const WMV = Detector::WMV;
+    const MP4 = Detector::MP4;
 
     protected $filename;
     protected $type;
@@ -26,118 +26,71 @@ class MediaFile {
     public $adapter;
 
     static public function open($filename) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
+        if (!file_exists($filename) || !is_readable($filename)) throw new Exceptions\FileAccessException('File "'.$filename.'" is not available for reading!');
 
         // by extension
-        $type = Detector::detectByFilename($filename);
-        // by binary tag
+        $type = Detector::detectByFilename($filename) ?: Detector::detectByContent($filename);
+
         if ($type === false)
-            $type = Detector::detectByContent($filename);
+            throw new Exceptions\FileAccessException('Unknown format for file "'.$filename.'"!');
 
-        switch ($type[1]) {
-            case Detector::WAV:
-                $type = self::AUDIO;
-                $format = self::WAV;
-                break;
-            case Detector::FLAC:
-                $type = self::AUDIO;
-                $format = self::FLAC;
-                break;
-            case Detector::AAC:
-                $type = self::AUDIO;
-                $format = self::AAC;
-                break;
-            case Detector::OGG:
-                $type = self::AUDIO;
-                $format = self::OGG;
-                break;
-            case Detector::MP3:
-                $type = self::AUDIO;
-                $format = self::MP3;
-                break;
-            case Detector::AMR:
-                $type = self::AUDIO;
-                $format = self::AMR;
-                break;
-            case Detector::WMA:
-                $type = self::AUDIO;
-                $format = self::WMA;
-                break;
+        if (!in_array($type[1], array(
+            self::WAV, self::FLAC, self::AAC, self::OGG, self::MP3, self::AMR, self::WMA,
+            self::AVI, self::ASF, self::WMV, self::MP4
+            )))
+            throw new Exceptions\FileAccessException('File "'.$filename.'" is not a supported video/audio, it\'s "'.$type[0].'/'.$type[1].'"!');
 
-            case Detector::AVI:
-                $type = self::VIDEO;
-                $format = self::AVI;
-                break;
-            case Detector::ASF:
-                $type = self::VIDEO;
-                $format = self::ASF;
-                break;
-            case Detector::WMV:
-                $type = self::VIDEO;
-                $format = self::WMV;
-                break;
-            case Detector::MP4:
-                $type = self::VIDEO;
-                $format = self::MP4;
-                break;
-
-            default:
-                throw new FileAccessException('Unknown format for file "'.$filename.'"!');
-        }
-
-        return new self($filename, $type, $format);
+        return new self($filename, $type[0], $type[1]);
     }
 
     public function __construct($filename, $type, $format) {
-        if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
-        if (!in_array($type, array(self::AUDIO, self::VIDEO))) throw new FileAccessException('Type "'.$type.'" is not applicable!');
-
-
+        if (!file_exists($filename) || !is_readable($filename)) throw new Exceptions\FileAccessException('File "'.$filename.'" is not available for reading!');
+        if (!in_array($type, array(self::AUDIO, self::VIDEO))) throw new Exceptions\FileAccessException('Type "'.$type.'" is not applicable!');
 
         if ($type == self::AUDIO) {
             switch ($format) {
                 case self::WAV:
-                    $this->adapter = new WavAdapter($filename);
+                    $this->adapter = new Adapters\WavAdapter($filename);
                     break;
                 case self::FLAC:
-                    $this->adapter = new FlacAdapter($filename);
+                    $this->adapter = new Adapters\FlacAdapter($filename);
                     break;
                 case self::AAC:
-                    $this->adapter = new AacAdapter($filename);
+                    $this->adapter = new Adapters\AacAdapter($filename);
                     break;
                 case self::OGG:
-                    $this->adapter = new OggAdapter($filename);
+                    $this->adapter = new Adapters\OggAdapter($filename);
                     break;
                 case self::MP3:
-                    $this->adapter = new Mp3Adapter($filename);
+                    $this->adapter = new Adapters\Mp3Adapter($filename);
                     break;
                 case self::AMR:
-                    $this->adapter = new AmrAdapter($filename);
+                    $this->adapter = new Adapters\AmrAdapter($filename);
                     break;
                 case self::WMA:
-                    $this->adapter = new WmaAdapter($filename);
+                    $this->adapter = new Adapters\WmaAdapter($filename);
                     break;
 
                 default:
-                    throw new FileAccessException('Type "'.$type.'" does not have format "'.$format.'"!');
+                    throw new Exceptions\FileAccessException('Type "'.$type.'" does not have format "'.$format.'"!');
             }
         } else {
             switch ($format) {
                 case self::AVI:
-                    $this->adapter = new AviAdapter($filename);
+                    $this->adapter = new Adapters\AviAdapter($filename);
                     break;
                 case self::ASF:
-                    $this->adapter = new AsfAdapter($filename);
+                    $this->adapter = new Adapters\AsfAdapter($filename);
                     break;
                 case self::WMV:
-                    $this->adapter = new WmvAdapter($filename);
+                    $this->adapter = new Adapters\WmvAdapter($filename);
                     break;
                 case self::MP4:
-                    $this->adapter = new Mp4Adapter($filename);
+                    $this->adapter = new Adapters\Mp4Adapter($filename);
                     break;
 
                 default:
-                    throw new FileAccessException('Type "'.$type.'" does not have format "'.$format.'"!');
+                    throw new Exceptions\FileAccessException('Type "'.$type.'" does not have format "'.$format.'"!');
             }
         }
 
@@ -175,6 +128,6 @@ class MediaFile {
         if ($this->type == self::VIDEO)
             return $this->adapter;
         else
-            throw new FileAccessException('This is not a video file!');
+            throw new Exceptions\FileAccessException('This is not a video file!');
     }
 }

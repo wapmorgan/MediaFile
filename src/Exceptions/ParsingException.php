@@ -1,4 +1,4 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Exceptions;
 
 class ParsingException extends Exception {}

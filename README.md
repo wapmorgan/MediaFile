@@ -140,7 +140,8 @@ Available formats:
 
 # Why not using getID3?
 
-getID3 library is very popular and has a lot of features, but it's old and slow.
+getID3 library is very popular and has a lot of features, but it's old and too slow.
+
 Following table shows comparation of analyzing speed of fixtures, distributed with first release of MediaFile:
 
 | File       | getID3 | MediaFile | Speed gain |

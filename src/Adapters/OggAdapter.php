@@ -1,7 +1,9 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
 
 use wapmorgan\BinaryStream\BinaryStream;
+use wapmorgan\MediaFile\AudioAdapter;
+use wapmorgan\MediaFile\Exceptions\FileAccessException;
 
 /**
  * Based on specifications from https://xiph.org/vorbis/doc/Vorbis_I_spec.html

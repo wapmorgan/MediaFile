@@ -1,7 +1,9 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
 
 use wapmorgan\BinaryStream\BinaryStream;
+use wapmorgan\MediaFile\AudioAdapter;
+use wapmorgan\MediaFile\ContainerAdapter;
 
 /**
  * WMA uses ASF as a container

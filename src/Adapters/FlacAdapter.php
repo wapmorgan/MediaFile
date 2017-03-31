@@ -1,36 +1,38 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
 
-use wapmorgan\Mp3Info\Mp3Info;
+use Flac;
+use wapmorgan\MediaFile\AudioAdapter;
+use wapmorgan\MediaFile\Exceptions\FileAccessException;
 
-class Mp3Adapter implements AudioAdapter {
+class FlacAdapter implements AudioAdapter {
     protected $filename;
-    protected $mp3;
+    protected $flac;
 
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
-        $this->mp3 = new Mp3Info($filename);
+        $this->flac = new Flac($filename);
     }
 
     public function getLength() {
-        return $this->mp3->duration;
+        return $this->flac->streamDuration;
     }
 
     public function getBitRate() {
-        return $this->mp3->bitRate;
+        return floor($this->flac->streamBitsPerSample * $this->flac->streamTotalSamples / $this->flac->streamDuration);
     }
 
     public function getSampleRate() {
-        return $this->mp3->sampleRate;
+        return $this->flac->streamSampleRate;
     }
 
     public function getChannels() {
-        return $this->mp3->channel == 'mono' ? 1 : 2;
+        return $this->flac->streamChannels;
     }
 
     public function isVariableBitRate() {
-        return $this->mp3->isVbr;
+        return true;
     }
 
     public function isLossless() {

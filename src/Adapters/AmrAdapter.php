@@ -1,7 +1,10 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
 
 use wapmorgan\BinaryStream\BinaryStream;
+use wapmorgan\MediaFile\AudioAdapter;
+use wapmorgan\MediaFile\Exceptions\FileAccessException;
+use wapmorgan\MediaFile\Exceptions\ParsingException;
 
 /**
  * Based on information from http://hackipedia.org/File%20formats/Containers/AMR,%20Adaptive%20MultiRate/AMR%20format.pdf
@@ -49,18 +52,19 @@ class AmrAdapter implements AudioAdapter {
     protected function scan() {
         if (!$this->stream->compare(5, '#!AMR'))
             throw new ParsingException('File is not an amr file!');
-        $this->stream->readString(6);
+        $this->stream->skip(6);
 
         $bitrates = array();
-
         $frames = 0;
         while (!$this->stream->isEnd()) {
             $frames++;
             $frame = $this->stream->readGroup('frame');
+            if ($this->stream->isEnd())
+                break;
             $bitrate = self::$modes[$frame['mode']];
             if (isset($bitrates[$bitrate])) $bitrates[$bitrate]++;
             else $bitrates[$bitrate] = 1;
-            $this->stream->readString(self::$frameSizes[$frame['mode']]);
+            $this->stream->skip(self::$frameSizes[$frame['mode']] - 1);
         }
         $this->bitrates = $bitrates;
         $this->length = 0.02 * $frames;

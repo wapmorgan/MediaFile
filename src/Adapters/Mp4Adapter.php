@@ -1,5 +1,8 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
+
+use wapmorgan\MediaFile\ContainerAdapter;
+use wapmorgan\MediaFile\VideoAdapter;
 
 class Mp4Adapter extends Mpeg4Part12Adapter implements VideoAdapter, ContainerAdapter {
 

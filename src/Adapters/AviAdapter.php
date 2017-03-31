@@ -1,7 +1,11 @@
 <?php
-namespace wapmorgan\MediaFile;
+namespace wapmorgan\MediaFile\Adapters;
 
 use wapmorgan\BinaryStream\BinaryStream;
+use wapmorgan\MediaFile\ContainerAdapter;
+use wapmorgan\MediaFile\Exceptions\FileAccessException;
+use wapmorgan\MediaFile\Exceptions\ParsingException;
+use wapmorgan\MediaFile\VideoAdapter;
 
 /**
  * Based on spcecifications from http://www.alexander-noe.com/video/documentation/avi.pdf

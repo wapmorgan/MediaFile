@@ -1,8 +1,8 @@
 #!/usr/bin/php
 <?php
 require __DIR__.'/../vendor/autoload.php';
-use wapmorgan\MediaFile\FileAccessException;
-use wapmorgan\MediaFile\ParsingException;
+use wapmorgan\MediaFile\Exceptions\FileAccessException;
+use wapmorgan\MediaFile\Exceptions\ParsingException;
 use wapmorgan\MediaFile\MediaFile;
 
 if ($argc == 1) die('Usage: '.__FILE__.' <files...>'.PHP_EOL);
@@ -12,7 +12,7 @@ if (in_array('--debug', $argv)) {
     unset($argv[array_search('--debug', $argv)]);
 }
 
-foreach ($argv as $file) {
+function scanFile($file) {
     try {
         $media = MediaFile::open($file);
         if ($media->isAudio()) {
@@ -26,10 +26,24 @@ foreach ($argv as $file) {
             echo $file.' '.$media->getType().':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().' '.$media->getVideo()->getFramerate().'fps'.PHP_EOL;
         }
     } catch (Exception $e) {
-        if ($e instanceof FileAccessException)
-            echo 'File '.$file.' is not a media file'.PHP_EOL;
-        else {
+        if ($e instanceof ParsingException)
             echo 'File is propably corrupted: '.$e->getMessage().PHP_EOL;
-        }
     }
+}
+
+function scanDirectory($dir) {
+    foreach (glob(trim($dir, '/*').'/*') as $file) {
+        var_dump($file);
+        if (is_dir($file))
+            scanDirectory($file);
+        else if (is_file($file))
+            scanFile($file);
+    }
+}
+
+foreach ($argv as $file) {
+    if (is_dir($file)) {
+        scanDirectory($file);
+    } else if (is_file($file))
+        scanFile($file);
 }

@@ -42,13 +42,12 @@ try {
     echo 'Dimensions: '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().PHP_EOL;
     echo 'Framerate: '.$media->getVideo()->getFramerate().PHP_EOL;
   }
-} catch (wapmorgan\MediaFile\Exception $e) {
+} catch (wapmorgan\MediaFile\Exceptions\Exception $e) {
   // not a media or file is corrupted
-  if ($e instanceof wapmorgan\MediaFile\FileAccessException)
-      echo 'File '.$file.' is not a media file'.PHP_EOL;
-  else {
+  if ($e instanceof wapmorgan\MediaFile\Exceptions\ParsingException)
       echo 'File is propably corrupted: '.$e->getMessage().PHP_EOL;
-  }
+  else if ($e instanceof wapmorgan\MediaFile\Exceptions\FileAccessException)
+      // file is not a media. Just skip
 }
 ```
 

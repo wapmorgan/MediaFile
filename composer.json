@@ -10,7 +10,7 @@
     },
     "require": {
         "boyhagemann/wave": "dev-master",
-        "bluemoehre/flac-php": "dev-master",
+        "bluemoehre/flac-php": "1.0.2",
         "wapmorgan/mp3info": "~0.0",
         "wapmorgan/binary-stream": "^0.1.5",
         "wapmorgan/file-type-detector": "^1.0.2"

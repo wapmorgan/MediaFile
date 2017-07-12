@@ -64,8 +64,9 @@ try {
 
 - Video
   - avi (also as container)
-  - wmv (also as container)
   - mp4 (also as container)
+  - mkv (also as container)
+  - wmv (also as container)
 
 Other formats support coming soon.
 
@@ -98,9 +99,9 @@ Available formats:
 
 2. For `MediaFile::VIDEO`:
 
-  | `MediaFile::AVI` | `MediaFile::WMV` | `MediaFile::MP4` |
-  |------------------|------------------|------------------|
-  |                  |                  |                  |
+  | `MediaFile::AVI` | `MediaFile::WMV` | `MediaFile::MP4` | `MediaFile::MKV` |
+  |------------------|------------------|------------------|------------------|
+  |                  |                  |                  |                  |
 
 ### AudioAdapter
 
@@ -165,6 +166,7 @@ Following table shows comparation of analyzing speed of fixtures, distributed wi
 | amr    | AMR-NB                                                       | http://hackipedia.org/File%20formats/Containers/AMR,%20Adaptive%20MultiRate/AMR%20format.pdf                                                                                                                       | Does not provide support of AMR-WB    |
 | avi    | -                                                            | http://www.alexander-noe.com/video/documentation/avi.pdf                                                                                                                                                           |                                       |
 | flac   | -                                                            | -                                                                                                                                                                                                                  | Support based on third-party library  |
+| mkv    | Matroska container                                           | https://www.matroska.org/technical/specs/index.html                                                                                                                                                                |                                       |
 | mp3    | MPEG 1/2 Layer 1/2/3                                         | https://github.com/wapmorgan/mp3info#technical-information                                                                                                                                                         |                                       |
 | mp4    | MPEG 4 Part 12/14 container with few audio and video streams | Part 12 specification: http://l.web.umkc.edu/lizhu/teaching/2016sp.video-communication/ref/mp4.pdf Part 14 extension: https://www.cmlab.csie.ntu.edu.tw/~cathyp/eBooks/14496_MPEG4/ISO_IEC_14496-14_2003-11-15.pdf |                                       |
 | ogg    | Ogg container with Vorbis audio                              | https://xiph.org/vorbis/doc/Vorbis_I_spec.html                                                                                                                                                                     |                                       |

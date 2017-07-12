@@ -19,6 +19,7 @@ class MediaFile {
     const ASF = Detector::ASF;
     const WMV = Detector::WMV;
     const MP4 = Detector::MP4;
+    const MKV = Detector::MKV;
 
     protected $filename;
     protected $type;
@@ -36,7 +37,7 @@ class MediaFile {
 
         if (!in_array($type[1], array(
             self::WAV, self::FLAC, self::AAC, self::OGG, self::MP3, self::AMR, self::WMA,
-            self::AVI, self::ASF, self::WMV, self::MP4
+            self::AVI, self::ASF, self::WMV, self::MP4, self::MKV
             )))
             throw new Exceptions\FileAccessException('File "'.$filename.'" is not a supported video/audio, it\'s "'.$type[0].'/'.$type[1].'"!');
 
@@ -87,6 +88,9 @@ class MediaFile {
                     break;
                 case self::MP4:
                     $this->adapter = new Adapters\Mp4Adapter($filename);
+                    break;
+                case self::MKV:
+                    $this->adapter = new Adapters\MkvAdapter($filename);
                     break;
 
                 default:

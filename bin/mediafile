@@ -33,7 +33,6 @@ function scanFile($file) {
 
 function scanDirectory($dir) {
     foreach (glob(trim($dir, '/*').'/*') as $file) {
-        var_dump($file);
         if (is_dir($file))
             scanDirectory($file);
         else if (is_file($file))

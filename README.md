@@ -7,6 +7,7 @@ Allows you easily get meta information about any media file with unified interfa
 [![Latest Stable Version](https://poser.pugx.org/wapmorgan/media-file/v/stable)](https://packagist.org/packages/wapmorgan/media-file)
 [![License](https://poser.pugx.org/wapmorgan/media-file/license)](https://packagist.org/packages/wapmorgan/media-file)
 [![Latest Unstable Version](https://poser.pugx.org/wapmorgan/media-file/v/unstable)](https://packagist.org/packages/wapmorgan/media-file)
+[![Tests](https://travis-ci.org/wapmorgan/MediaFile.svg?branch=master)](https://travis-ci.org/wapmorgan/MediaFile)
 
 **Supported formats**:
 

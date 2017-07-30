@@ -8,19 +8,24 @@ Allows you easily get meta information about any media file with unified interfa
 [![License](https://poser.pugx.org/wapmorgan/media-file/license)](https://packagist.org/packages/wapmorgan/media-file)
 [![Latest Unstable Version](https://poser.pugx.org/wapmorgan/media-file/v/unstable)](https://packagist.org/packages/wapmorgan/media-file)
 
+**Supported formats**:
+
+- **Audio:** aac, amr, flac, mp3, ogg, wav, wma
+- **Video** (and as containers): avi, mkv, mp4, wmv
+
+_Other formats support coming soon._
+
 It can retrieve following information:
 
 - For any audio: length, bitRate, sampleRate, channels
 - For any video: length, width, height, frameRate
 - For any container: number of streams, type of streams, formats of streams
 
-Table of contents:
-
+**Table of contents:**
 1. Usage
-2. Supported formats
-3. API
-4. Why not using getID3?
-5. Technical details
+2. API
+3. Why not using getID3?
+4. Technical details
 
 # Usage
 
@@ -50,25 +55,6 @@ try {
       // file is not a media. Just skip
 }
 ```
-
-# Supported formats
-
-- Audio
-  - wav
-  - flac
-  - aac
-  - ogg
-  - mp3
-  - amr
-  - wma
-
-- Video
-  - avi (also as container)
-  - mp4 (also as container)
-  - mkv (also as container)
-  - wmv (also as container)
-
-Other formats support coming soon.
 
 # API
 

@@ -14,5 +14,8 @@
         "wapmorgan/mp3info": "~0.0",
         "wapmorgan/binary-stream": "~0.4.0",
         "wapmorgan/file-type-detector": "^1.0.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
     }
 }

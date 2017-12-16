@@ -3,7 +3,7 @@
 
 Allows you easily get meta information about any media file with unified interface.
 
-[![Composer package](http://xn--e1adiijbgl.xn--p1acf/badge/wapmorgan/media-file)](https://packagist.org/packages/wapmorgan/media-file)
+[![Composer package](http://composer.network/badge/wapmorgan/media-file)](https://packagist.org/packages/wapmorgan/media-file)
 [![Latest Stable Version](https://poser.pugx.org/wapmorgan/media-file/v/stable)](https://packagist.org/packages/wapmorgan/media-file)
 [![License](https://poser.pugx.org/wapmorgan/media-file/license)](https://packagist.org/packages/wapmorgan/media-file)
 [![Latest Unstable Version](https://poser.pugx.org/wapmorgan/media-file/v/unstable)](https://packagist.org/packages/wapmorgan/media-file)

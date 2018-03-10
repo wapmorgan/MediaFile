@@ -14,7 +14,7 @@
         "wapmorgan/binary-stream": "~0.4.0",
         "wapmorgan/file-type-detector": "^1.0.2"
     },
-    "suggests": {
+    "suggest": {
         "boyhagemann/wave": "Wav support"
     },
     "require-dev": {

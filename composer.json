@@ -9,11 +9,13 @@
         }
     },
     "require": {
-        "boyhagemann/wave": "dev-master",
         "bluemoehre/flac-php": "1.0.2",
         "wapmorgan/mp3info": "~0.0",
         "wapmorgan/binary-stream": "~0.4.0",
         "wapmorgan/file-type-detector": "^1.0.2"
+    },
+    "suggests": {
+        "boyhagemann/wave": "Wav support"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8"

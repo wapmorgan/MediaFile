@@ -2,6 +2,7 @@
 # MediaFile
 
 Allows you easily get meta information about any media file with unified interface.
+The library has no requirements of external libs or system unitilies.
 
 [![Composer package](http://composer.network/badge/wapmorgan/media-file)](https://packagist.org/packages/wapmorgan/media-file)
 [![Latest Stable Version](https://poser.pugx.org/wapmorgan/media-file/v/stable)](https://packagist.org/packages/wapmorgan/media-file)
@@ -12,15 +13,23 @@ Allows you easily get meta information about any media file with unified interfa
 **Supported formats**:
 
 - **Audio:** aac, amr, flac, mp3, ogg, wav, wma
-- **Video** (and as containers): avi, mkv, mp4, wmv
+- **Video** avi, mkv, mp4, wmv
 
 _Other formats support coming soon._
 
 It can retrieve following information:
 
-- For any audio: length, bitRate, sampleRate, channels
-- For any video: length, width, height, frameRate
-- For any container: number of streams, type of streams, formats of streams
+- For any audio:
+  - length
+  - bitRate
+  - sampleRate
+  - channels
+
+- For any video:
+  - length
+  - width
+  - height
+  - frameRate
 
 **Table of contents:**
 1. Usage
@@ -31,34 +40,34 @@ It can retrieve following information:
 # Usage
 
 ```php
+use wapmorgan\MediaFile\MediaFile;
+
 try {
-  $media = wapmorgan\MediaFile\MediaFile::open('123.mp3');
+  $media = MediaFile::open('123.mp3');
   // for audio
   if ($media->isAudio()) {
-    // calls to AudioAdapter interface
-    echo 'Duration: '.$media->getAudio()->getLength().PHP_EOL;
-    echo 'Bit rate: '.$media->getAudio()->getBitRate().PHP_EOL;
-    echo 'Sample rate: '.$media->getAudio()->getSampleRate().PHP_EOL;
-    echo 'Channels: '.$media->getAudio()->getChannels().PHP_EOL;
+    $audio = $media->getAudio();
+    echo 'Duration: '.$audio->getLength().PHP_EOL;
+    echo 'Bit rate: '.$audio->getBitRate().PHP_EOL;
+    echo 'Sample rate: '.$audio->getSampleRate().PHP_EOL;
+    echo 'Channels: '.$audio->getChannels().PHP_EOL;
   }
   // for video
   else {
+    $video = $media->getVideo();
     // calls to VideoAdapter interface
-    echo 'Duration: '.$media->getVideo()->getLength().PHP_EOL;
-    echo 'Dimensions: '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().PHP_EOL;
-    echo 'Framerate: '.$media->getVideo()->getFramerate().PHP_EOL;
+    echo 'Duration: '.$video->getLength().PHP_EOL;
+    echo 'Dimensions: '.$video->getWidth().'x'.$video->getHeight().PHP_EOL;
+    echo 'Framerate: '.$video->getFramerate().PHP_EOL;
   }
-} catch (wapmorgan\MediaFile\Exceptions\Exception $e) {
-  // not a media or file is corrupted
-  if ($e instanceof wapmorgan\MediaFile\Exceptions\ParsingException)
-      echo 'File is propably corrupted: '.$e->getMessage().PHP_EOL;
-  else if ($e instanceof wapmorgan\MediaFile\Exceptions\FileAccessException)
-      // file is not a media. Just skip
+} catch (wapmorgan\MediaFile\Exceptions\FileAccessException $e) {
+  // FileAccessException throws when file is not a detected media
+} catch (wapmorgan\MediaFile\Exceptions\ParsingException $e) {
+   echo 'File is propably corrupted: '.$e->getMessage().PHP_EOL;
 }
 ```
 
 # API
-
 ### MediaFile
 
 `wapmorgan\wapmorgan\MediaFile`

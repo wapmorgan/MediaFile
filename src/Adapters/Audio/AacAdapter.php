@@ -1,8 +1,8 @@
 <?php
-namespace wapmorgan\MediaFile\Adapters;
+namespace wapmorgan\MediaFile\Adapters\Audio;
 
-use wapmorgan\BinaryStream\BinaryStream;
-use wapmorgan\MediaFile\AudioAdapter;
+use wapmorgan\MediaFile\Adapters\Containers\Mpeg4Part12Adapter;
+use wapmorgan\MediaFile\Adapters\AudioAdapter;
 
 /**
  * Aac uses MPEG 4 Part 12/14 as container.

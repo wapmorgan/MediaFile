@@ -1,8 +1,8 @@
 <?php
-namespace wapmorgan\MediaFile\Adapters\Containers;
+namespace wapmorgan\MediaFile\Adapters\audio\Containers;
 
 use wapmorgan\BinaryStream\BinaryStream;
-use wapmorgan\MediaFile\ContainerAdapter;
+use wapmorgan\MediaFile\Adapters\ContainerAdapter;
 use wapmorgan\MediaFile\Exceptions\FileAccessException;
 use wapmorgan\MediaFile\Exceptions\ParsingException;
 

@@ -7,6 +7,7 @@ use wapmorgan\MediaFile\MediaFile;
 
 if ($argc == 1) die('Usage: '.__FILE__.' <files...>'.PHP_EOL);
 array_shift($argv);
+
 if (in_array('--debug', $argv)) {
     define('DEBUG', true);
     unset($argv[array_search('--debug', $argv)]);
@@ -17,21 +18,23 @@ function substrIfLonger($string, $maxLength)
     return (strlen($string) > $maxLength) ? substr($string, 0, $maxLength - 2).'..' : $string;
 }
 
-function scanFile($file, $type) {
+function scanFile($file) {
     try {
         $media = MediaFile::open($file);
-        if ($media->isAudio() && $type == MediaFile::AUDIO) {
-            $length = $media->getAudio()->getLength();
-            // echo $file.' '.$media->getType().':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' at '.($media->getAudio()->getSampleRate() / 1000).'KHz '.($media->getAudio()->getBitRate() / 1000).'Kbps'.PHP_EOL;
-            echo sprintf('%-30s | %5s | %3d:%02d | %8d | %10.1f | %d', substrIfLonger($file, 30), $media->getFormat(), floor($length / 60), floor($length % 60), $media->getAudio()->getBitRate() / 1000, $media->getAudio()->getSampleRate() / 1000, $media->getAudio()->getChannels()).PHP_EOL;
-        // } else if ($media->isContainer()) {
-        //     $length = $media->getVideo()->getLength();
-        //     echo $file.' '.$media->getType().':'.$media->getFormat().' ['.$media->getVideo()->countAudioStreams().' audio / '.$media->getVideo()->countVideoStreams().' video] '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().' '.$media->getVideo()->getFramerate().'fps'.PHP_EOL;
-        // } else {
-        } else if ($media->isVideo() && $type == MediaFile::VIDEO) {
-            // echo sprintf('%-30s | %5s | %5s | %dx%d | %d', 'File name', 'Type', 'Length', 'Resolution', 'fps').PHP_EOL;
+        if ($media->isAudio()) {
+            $audio = $media->getAudio();
+            $length = $audio->getLength();
+            echo sprintf('%-30s | %5s | %3d:%02d | %8d | %10.1f | %d',
+                substrIfLonger($file, 30),
+                $media->getFormat(),
+                floor($length / 60),
+                floor($length % 60),
+                $media->getAudio()->getBitRate() / 1000,
+                $media->getAudio()->getSampleRate() / 1000,
+                $media->getAudio()->getChannels()).PHP_EOL;
+        } else if ($media->isVideo()) {
             $length = $media->getVideo()->getLength();
-            echo $file.' '.$media->getType().':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().' '.$media->getVideo()->getFramerate().'fps'.PHP_EOL;
+            echo $file.':'.$media->getFormat().' '.sprintf('%d:%02d', floor($length / 60), floor($length % 60)).' '.$media->getVideo()->getWidth().'x'.$media->getVideo()->getHeight().' '.$media->getVideo()->getFrameRate().'fps'.PHP_EOL;
         }
     } catch (Exception $e) {
         if ($e instanceof ParsingException)
@@ -39,28 +42,26 @@ function scanFile($file, $type) {
     }
 }
 
-function scanDirectory($dir, $type)
+function scanDirectory($dir)
 {
     foreach (glob(trim($dir, '/*').'/*') as $file) {
         if (is_dir($file))
-            scanDirectory($file, $type);
+            scanDirectory($file);
         else if (is_file($file))
-            scanFile($file, $type);
+            scanFile($file);
     }
 }
 
-function scan($points, $type)
+function scan($points)
 {
     foreach ($points as $file) {
         if (is_dir($file)) {
-            scanDirectory($file, $type);
+            scanDirectory($file);
         } else if (is_file($file))
-            scanFile($file, $type);
+            scanFile($file);
     }
 }
 
-echo sprintf('%-30s | %5s | %5s | %8s | %10s | %s', 'File name', 'Type', 'Length', 'BitRate', 'SampleRate', 'Channels').PHP_EOL;
-scan($argv, MediaFile::AUDIO);
-
-echo sprintf('%-30s | %5s | %5s | %s | %s', 'File name', 'Type', 'Length', 'Resolution', 'fps').PHP_EOL;
-scan($argv, MediaFile::VIDEO);
+echo sprintf('%-30s | %5s | %5s | %8s | %10s | %s', 'File name', 'Format', 'Length', 'BitRate', 'SampleRate', 'Channels').PHP_EOL;
+echo sprintf('%-30s | %5s | %5s | %s | %s', 'File name', 'Format', 'Length', 'Resolution', 'fps').PHP_EOL;
+scan($argv);

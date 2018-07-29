@@ -1,9 +1,10 @@
 <?php
-namespace wapmorgan\MediaFile\Adapters;
+namespace wapmorgan\MediaFile\Adapters\Audio;
 
 use wapmorgan\BinaryStream\BinaryStream;
-use wapmorgan\MediaFile\AudioAdapter;
-use wapmorgan\MediaFile\ContainerAdapter;
+use wapmorgan\MediaFile\Adapters\Containers\AsfAdapter;
+use wapmorgan\MediaFile\Adapters\AudioAdapter;
+use wapmorgan\MediaFile\Adapters\ContainerAdapter;
 
 /**
  * WMA uses ASF as a container
@@ -14,6 +15,9 @@ class WmaAdapter extends AsfAdapter implements AudioAdapter {
     protected $sampleRate;
     protected $channels;
 
+    /**
+     * @throws \wapmorgan\MediaFile\Exceptions\ParsingException
+     */
     protected function scan() {
         parent::scan();
         $this->length = $this->properties['send_length'];
@@ -28,26 +32,44 @@ class WmaAdapter extends AsfAdapter implements AudioAdapter {
         }
     }
 
+    /**
+     * @return int
+     */
     public function getLength() {
         return $this->length;
     }
 
+    /**
+     * @return int
+     */
     public function getBitRate() {
         return $this->bitRate;
     }
 
+    /**
+     * @return int
+     */
     public function getSampleRate() {
         return $this->sampleRate;
     }
 
+    /**
+     * @return int
+     */
     public function getChannels() {
         return $this->channels;
     }
 
+    /**
+     * @return bool
+     */
     public function isVariableBitRate() {
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function isLossless() {
         return false;
     }

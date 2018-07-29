@@ -1,9 +1,10 @@
 <?php
-namespace wapmorgan\MediaFile\Adapters;
+namespace wapmorgan\MediaFile\Adapters\Video;
 
 use wapmorgan\BinaryStream\BinaryStream;
-use wapmorgan\MediaFile\ContainerAdapter;
-use wapmorgan\MediaFile\VideoAdapter;
+use wapmorgan\MediaFile\Adapters\Containers\AsfAdapter;
+use wapmorgan\MediaFile\Adapters\ContainerAdapter;
+use wapmorgan\MediaFile\Adapters\VideoAdapter;
 
 /**
  * WMV uses ASF as a container
@@ -14,6 +15,9 @@ class WmvAdapter extends AsfAdapter implements VideoAdapter {
     protected $height;
     protected $framerate;
 
+    /**
+     * @throws \wapmorgan\MediaFile\Exceptions\ParsingException
+     */
     protected function scan() {
         parent::scan();
         $this->length = $this->properties['send_length'];
@@ -27,19 +31,31 @@ class WmvAdapter extends AsfAdapter implements VideoAdapter {
         }
     }
 
+    /**
+     * @return int
+     */
     public function getLength() {
         return $this->length;
     }
 
+    /**
+     * @return int
+     */
     public function getWidth() {
         return $this->width;
     }
 
+    /**
+     * @return int
+     */
     public function getHeight() {
         return $this->height;
     }
 
-    public function getFramerate() {
+    /**
+     * @return int
+     */
+    public function getFrameRate() {
         return $this->framerate;
     }
 }

@@ -1,11 +1,11 @@
 <?php
-namespace wapmorgan\MediaFile\Adapters;
+namespace wapmorgan\MediaFile\Adapters\Video;
 
 use wapmorgan\BinaryStream\BinaryStream;
-use wapmorgan\MediaFile\ContainerAdapter;
+use wapmorgan\MediaFile\Adapters\ContainerAdapter;
 use wapmorgan\MediaFile\Exceptions\FileAccessException;
 use wapmorgan\MediaFile\Exceptions\ParsingException;
-use wapmorgan\MediaFile\VideoAdapter;
+use wapmorgan\MediaFile\Adapters\VideoAdapter;
 
 /**
  * Based on spcecifications from http://www.alexander-noe.com/video/documentation/avi.pdf
@@ -30,11 +30,21 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
     protected $length;
     protected $framerate;
 
+    protected $streams;
+
     static protected $streamTypes = array(
         'vids' => ContainerAdapter::VIDEO,
         'auds' => ContainerAdapter::AUDIO,
     );
 
+    /**
+     * AviAdapter constructor.
+     *
+     * @param $filename
+     *
+     * @throws \wapmorgan\MediaFile\Exceptions\FileAccessException
+     * @throws \wapmorgan\MediaFile\Exceptions\ParsingException
+     */
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
@@ -105,6 +115,9 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
         $this->scan();
     }
 
+    /**
+     * @throws \wapmorgan\MediaFile\Exceptions\ParsingException
+     */
     protected function scan() {
         $list = $this->stream->readGroup('list');
         // initial list (RIFF or LIST)
@@ -199,7 +212,7 @@ class AviAdapter implements VideoAdapter, ContainerAdapter {
         return $this->avih['height'];
     }
 
-    public function getFramerate() {
+    public function getFrameRate() {
         return $this->framerate;
     }
 

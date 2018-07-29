@@ -12,10 +12,13 @@ The library has no requirements of external libs or system unitilies.
 
 **Supported formats**:
 
-- **Audio:** aac, amr, flac, mp3, ogg, wav, wma
-- **Video** avi, mkv, mp4, wmv
-
-_Other formats support coming soon._
+| Audio | Video |
+|-------|-------|
+| aac, amr, flac, mp3, ogg, wav, wma | avi, mkv, mp4, wmv |
+| - length | - length |
+| - bitRate | - width |
+| - sampleRate | - height |
+| - channels | - frameRate |
 
 It can retrieve following information:
 

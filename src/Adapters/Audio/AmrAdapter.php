@@ -1,8 +1,8 @@
 <?php
-namespace wapmorgan\MediaFile\Adapters;
+namespace wapmorgan\MediaFile\Adapters\Audio;
 
 use wapmorgan\BinaryStream\BinaryStream;
-use wapmorgan\MediaFile\AudioAdapter;
+use wapmorgan\MediaFile\Adapters\AudioAdapter;
 use wapmorgan\MediaFile\Exceptions\FileAccessException;
 use wapmorgan\MediaFile\Exceptions\ParsingException;
 
@@ -37,6 +37,14 @@ class AmrAdapter implements AudioAdapter {
         7 => 32,
     );
 
+    /**
+     * AmrAdapter constructor.
+     *
+     * @param $filename
+     *
+     * @throws \wapmorgan\MediaFile\Exceptions\FileAccessException
+     * @throws \wapmorgan\MediaFile\Exceptions\ParsingException
+     */
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
@@ -49,6 +57,9 @@ class AmrAdapter implements AudioAdapter {
         $this->scan();
     }
 
+    /**
+     * @throws \wapmorgan\MediaFile\Exceptions\ParsingException
+     */
     protected function scan() {
         if (!$this->stream->compare(5, '#!AMR'))
             throw new ParsingException('File is not an amr file!');
@@ -70,26 +81,44 @@ class AmrAdapter implements AudioAdapter {
         $this->length = 0.02 * $frames;
     }
 
+    /**
+     * @return int
+     */
     public function getLength() {
         return $this->length;
     }
 
+    /**
+     * @return float|int
+     */
     public function getBitRate() {
         return array_sum(array_keys($this->bitrates)) / count($this->bitrates);
     }
 
+    /**
+     * @return int
+     */
     public function getSampleRate() {
         return 8000;
     }
 
+    /**
+     * @return int
+     */
     public function getChannels() {
         return 1;
     }
 
+    /**
+     * @return bool
+     */
     public function isVariableBitRate() {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isLossless() {
         return false;
     }

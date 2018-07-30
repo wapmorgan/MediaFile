@@ -20,20 +20,6 @@ The library has no requirements of external libs or system unitilies.
 | - sampleRate | - height |
 | - channels | - frameRate |
 
-It can retrieve following information:
-
-- For any audio:
-  - length
-  - bitRate
-  - sampleRate
-  - channels
-
-- For any video:
-  - length
-  - width
-  - height
-  - frameRate
-
 **Table of contents:**
 1. Usage
 2. API

@@ -1,4 +1,3 @@
-
 # MediaFile
 
 Allows you easily get meta information about any media file with unified interface.
@@ -63,65 +62,47 @@ try {
 
 | Method                                   | Description                                                                       | Notes                                                                                                   |
 |------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| `static open($filename)`                 | Detects file type and format and calls constructor with these parameters.         | Throws an `\Exception` if file is not a media or is not accessible.                                     |
-| `__construct($filename, $type, $format)` | Opens file and reads metadata.                                                    | Available `$type` values: `MediaFile::AUDIO`, `MediaFile::VIDEO`. Available `$format` values see below. |
-| `isAudio()`                              | Returns true if media is just audio.                                              |                                                                                                         |
-| `isVideo()`                              | Returns true if media is a video with audio.                                      |                                                                                                         |
-| `isContainer()`                          | Returns true if media is also a container (can store multiple audios and videos). |                                                                                                         |
-| `getType()`                              | Returns media file type.                                                          |                                                                                                         |
-| `getFormat()`                            | Returns media file format.                                                        |                                                                                                         |
-| `getAudio()`                             | Returns an `AudioAdapter` interface for audio.                                      |                                                                                                         |
-| `getVideo()`                             | Returns an `VideoAdapter` interface for video.                                      |                                                                                                         |
-
-Available formats:
-
-1. For `MediaFile::AUDIO`:
-
-  | `MediaFile::WAV`     | `MediaFile::FLAC`    | `MediaFile::AAC`     | `MediaFile::OGG` |
-  |----------------------|----------------------|----------------------|------------------|
-  | **`MediaFile::MP3`** | **`MediaFile::AMR`** | **`MediaFile::WMA`** |                  |
-
-
-2. For `MediaFile::VIDEO`:
-
-  | `MediaFile::AVI` | `MediaFile::WMV` | `MediaFile::MP4` | `MediaFile::MKV` |
-  |------------------|------------------|------------------|------------------|
-  |                  |                  |                  |                  |
-
+| `static open($filename): MediaFile|null` | Detects file type and format and calls constructor with these parameters.         | Throws an `\Exception` if file is not a media or is not accessible.                                     |
+| `isAudio(): boolean`                     | Returns true if media is just audio.                                              |                                                                                                         |
+| `isVideo(): boolean`                     | Returns true if media is a video with audio.                                      |                                                                                                         |
+| `isContainer(): boolean`                 | Returns true if media is also a container (can store multiple audios and videos). |                                                                                                         |
+| `getFormat(): string`                    | Returns media file format.                                                        |                                                                                                         |
+| `getAudio(): AudioAdapter`               | Returns an `AudioAdapter` interface for audio.                                      |                                                                                                         |
+| `getVideo(): VideoAdapter`               | Returns an `VideoAdapter` interface for video.                                      |                                                                                                         |
 ### AudioAdapter
 
 `wapmorgan\MediaFile\AudioAdapter`
 
-| Method                | Description                                                       |
-|-----------------------|-------------------------------------------------------------------|
-| `getLength()`         | Returns audio length in seconds and microseconds as _float_.      |
-| `getBitRate()`        | Returns audio bit rate as _int_.                                  |
-| `getSampleRate()`     | Returns audio sampling rate as _int_.                             |
-| `getChannels()`       | Returns number of channels used in audio as _int_.                |
-| `isVariableBitRate()` | Returns whether format support VBR and file has VBR as _boolean_. |
-| `isLossless()`        | Returns whether format has compression lossless as _boolean_.     |
+| Method                         | Description                                                       |
+|--------------------------------|-------------------------------------------------------------------|
+| `getLength(): float`           | Returns audio length in seconds and microseconds as _float_.      |
+| `getBitRate(): int`            | Returns audio bit rate as _int_.                                  |
+| `getSampleRate(): int`         | Returns audio sampling rate as _int_.                             |
+| `getChannels(): int`           | Returns number of channels used in audio as _int_.                |
+| `isVariableBitRate(): boolean` | Returns whether format support VBR and file has VBR as _boolean_. |
+| `isLossless(): boolean`        | Returns whether format has compression lossless as _boolean_.     |
 
 ### VideoAdapter
 
 `wapmorgan\MediaFile\VideoAdapter`
 
-| Method           | Description                                                  |
-|------------------|--------------------------------------------------------------|
-| `getLength()`    | Returns video length in seconds and microseconds as _float_. |
-| `getWidth()`     | Returns width of video as _int_.                             |
-| `getHeight()`    | Returns height of video as _int_.                            |
-| `getFramerate()` | Returns video frame rate of video as _int_.                  |
+| Method                | Description                                                  |
+|-----------------------|--------------------------------------------------------------|
+| `getLength(): int`    | Returns video length in seconds and microseconds as _float_. |
+| `getWidth(): int`     | Returns width of video as _int_.                             |
+| `getHeight(): int`    | Returns height of video as _int_.                            |
+| `getFramerate(): int` | Returns video frame rate of video as _int_.                  |
 
 ### ContainerAdapter
 
 `wapmorgan\MediaFile\ContainerAdapter`
 
-| Method                | Description                                      |
-|-----------------------|--------------------------------------------------|
-| `countStreams()`      | Returns number of streams in container as _int_. |
-| `countVideoStreams()` | Returns number of video streams as _int_.        |
-| `countAudioStreams()` | Returns number of audio streams as _int_.        |
-| `getStreams()`        | Returns streams information as _array_.          |
+| Method                     | Description                                      |
+|----------------------------|--------------------------------------------------|
+| `countStreams(): int`      | Returns number of streams in container as _int_. |
+| `countVideoStreams(): int` | Returns number of video streams as _int_.        |
+| `countAudioStreams(): int` | Returns number of audio streams as _int_.        |
+| `getStreams(): array`      | Returns streams information as _array_.          |
 
 # Why not using getID3?
 

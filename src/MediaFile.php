@@ -2,13 +2,13 @@
 namespace wapmorgan\MediaFile;
 
 use wapmorgan\FileTypeDetector\Detector;
-use wapmorgan\MediaFile\Adapters\audio\AacAdapter;
-use wapmorgan\MediaFile\Adapters\audio\AmrAdapter;
-use wapmorgan\MediaFile\Adapters\audio\FlacAdapter;
-use wapmorgan\MediaFile\Adapters\audio\Mp3Adapter;
-use wapmorgan\MediaFile\Adapters\audio\OggAdapter;
-use wapmorgan\MediaFile\Adapters\audio\WavAdapter;
-use wapmorgan\MediaFile\Adapters\audio\WmaAdapter;
+use wapmorgan\MediaFile\Adapters\Audio\AacAdapter;
+use wapmorgan\MediaFile\Adapters\Audio\AmrAdapter;
+use wapmorgan\MediaFile\Adapters\Audio\FlacAdapter;
+use wapmorgan\MediaFile\Adapters\Audio\Mp3Adapter;
+use wapmorgan\MediaFile\Adapters\Audio\OggAdapter;
+use wapmorgan\MediaFile\Adapters\Audio\WavAdapter;
+use wapmorgan\MediaFile\Adapters\Audio\WmaAdapter;
 use wapmorgan\MediaFile\Adapters\AudioAdapter;
 use wapmorgan\MediaFile\Adapters\ContainerAdapter;
 use wapmorgan\MediaFile\Adapters\Containers\AsfAdapter;

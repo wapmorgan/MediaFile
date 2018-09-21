@@ -9,6 +9,7 @@
         }
     },
     "require": {
+        "php": ">=5.5",
         "bluemoehre/flac-php": "1.0.2",
         "wapmorgan/mp3info": "~0.0",
         "wapmorgan/binary-stream": "~0.4.0",

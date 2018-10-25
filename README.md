@@ -9,7 +9,7 @@ The library has no requirements of external libs or system unitilies.
 [![Latest Unstable Version](https://poser.pugx.org/wapmorgan/media-file/v/unstable)](https://packagist.org/packages/wapmorgan/media-file)
 [![Tests](https://travis-ci.org/wapmorgan/MediaFile.svg?branch=master)](https://travis-ci.org/wapmorgan/MediaFile)
 
-**Supported formats**:
+## Supported formats
 
 | Audio | Video |
 |-------|-------|
@@ -25,7 +25,7 @@ The library has no requirements of external libs or system unitilies.
 3. Why not using getID3?
 4. Technical details
 
-# Usage
+## Usage
 
 ```php
 use wapmorgan\MediaFile\MediaFile;
@@ -55,7 +55,7 @@ try {
 }
 ```
 
-# API
+## API
 ### MediaFile
 
 `wapmorgan\wapmorgan\MediaFile`
@@ -104,7 +104,7 @@ try {
 | `countAudioStreams(): int` | Returns number of audio streams as _int_.        |
 | `getStreams(): array`      | Returns streams information as _array_.          |
 
-# Why not using getID3?
+## Why not using getID3?
 
 getID3 library is very popular and has a lot of features, but it's old and too slow.
 
@@ -124,7 +124,7 @@ Following table shows comparation of analyzing speed of fixtures, distributed wi
 | audio.wav  | 0.114  | 0.070     | 1.64x      |
 | audio.wma  | 0.195  | 0.158     | 1.23x      |
 
-# Technical information
+## Technical information
 
 | Format | Full format name                                             | Specifications                                                                                                                                                                                                     | Notes                                 |
 |--------|--------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------|

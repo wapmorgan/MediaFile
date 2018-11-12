@@ -17,14 +17,31 @@ class Mpeg4Part12Adapter {
     const MP4_1 = 2;
     const MP4_2 = 3;
 
+    /** @var string */
     protected $filename;
+
+    /** @var string */
     protected $type;
+
+    /** @var BinaryStream */
     protected $stream;
+
+    /** @var array|null */
     protected $streams;
+
     protected $mvhd;
+
     protected $stsd_audio;
+
     protected $mdat;
 
+    /**
+     * Mpeg4Part12Adapter constructor.
+     * @param $filename
+     * @throws FileAccessException
+     * @throws ParsingException
+     * @throws \Exception
+     */
     public function __construct($filename) {
         if (!file_exists($filename) || !is_readable($filename)) throw new FileAccessException('File "'.$filename.'" is not available for reading!');
         $this->filename = $filename;
@@ -37,7 +54,7 @@ class Mpeg4Part12Adapter {
         $this->stream->saveGroup('full_box_header', array(
             'i:size' => 32,
             's:type' => 4,
-            'c:version' => 1,
+            'i:version' => 8,
             'flags' => 24,
         ));
         $this->stream->saveGroup('ftyp_box', array(
@@ -139,9 +156,12 @@ class Mpeg4Part12Adapter {
         $this->scan();
     }
 
+    /**
+     * @throws ParsingException
+     */
     protected function scan() {
         $ftyp = $this->stream->readGroup('ftyp_box');
-        if ($ftyp['type'] != 'ftyp')
+        if ($ftyp['type'] !== 'ftyp')
             throw new ParsingException('This file is not an MPEG-4 Part 12/14 container!');
 
         switch ($ftyp['major']) {
@@ -152,29 +172,40 @@ class Mpeg4Part12Adapter {
 
         $this->stream->skip($ftyp['size'] - 16);
 
-        if ($this->getNextBoxType() == 'mdat') {
+        if ($this->getNextBoxType() === 'mdat') {
             $this->stream->mark('mdat');;
             $this->mdat = $this->stream->readGroup('box_header');
             $this->stream->skip($this->mdat['size'] - 8); // 8 - size of box header structure
         }
 
+        while ($this->getNextBoxType() !== 'moov') {
+            $useless_box = $this->stream->readGroup('box_header');
+            $this->stream->skip($useless_box['size'] - 8);
+        }
+
         $this->stream->mark('moov');
         $moov = $this->stream->readGroup('box_header');
-        if ($moov['type'] != 'moov')
-            throw new ParsingException('This file does not have "moov" box!');
 
+        if ($moov['type'] !== 'moov')
+            throw new ParsingException('This file does not have "moov" box! First actual box is: '.json_encode($moov, JSON_PRETTY_PRINT));
+
+        $this->stream->mark('mvhd');
         $this->mvhd = $this->stream->readGroup('full_box_header');
-        if ($this->mvhd['type'] != 'mvhd')
+        if ($this->mvhd['type'] !== 'mvhd')
             throw new ParsingException('This file does not have "mvhd" box!');
         $this->mvhd += $this->stream->readGroup('mvhd_box_'.($this->mvhd['version'] == 0 ? 'little' : 'big'));
 
+        $this->stream->go('mvhd');
+        $this->stream->skip($this->mvhd['size'] - 12);
+
+//        var_dump($this->mvhd);
         $i = 0;
         // tracks scanning
-        while ($this->getNextBoxType() == 'trak') {
+        while ($this->getNextBoxType() === 'trak') {
             $this->stream->mark('track_'.$i);
             $trak = $this->stream->readGroup('box_header');
 
-            if ($this->getNextBoxType() != 'tkhd')
+            if ($this->getNextBoxType() !== 'tkhd')
                 throw new ParsingException('This file does not have "tkhd" box!');
             $tkhd = $this->stream->readGroup('full_box_header');
             $tkhd += $this->stream->readGroup('tkhd_box_'.($tkhd['version'] == 0 ? 'little' : 'big'));
@@ -201,7 +232,7 @@ class Mpeg4Part12Adapter {
                             switch ($next_box) {
                                 case 'mdhd':
                                     $mdhd = $this->stream->readGroup('full_box_header');
-                                    if ($mdhd['type'] != 'mdhd')
+                                    if ($mdhd['type'] !== 'mdhd')
                                         throw new ParsingException('This file does not have "mdhd" box!');
 
                                     $mdhd += $this->stream->readGroup('mdhd_box_'.($mdhd['version'] == 0 ? 'little' : 'big'));
@@ -210,8 +241,8 @@ class Mpeg4Part12Adapter {
                                 case 'hdlr':
                                     $hdlr = $this->stream->readGroup('full_box_header');
                                     $hdlr += $this->stream->readGroup('hdlr_box');
-                                    $this->streams[$tkhd['track_id']]['type'] = ($hdlr['handler_type'] == 'vide') ? ContainerAdapter::VIDEO
-                                        : ($hdlr['handler_type'] == 'soun' ? ContainerAdapter::AUDIO : null);
+                                    $this->streams[$tkhd['track_id']]['type'] = ($hdlr['handler_type'] === 'vide') ? ContainerAdapter::VIDEO
+                                        : ($hdlr['handler_type'] === 'soun' ? ContainerAdapter::AUDIO : null);
                                     $this->stream->skip($hdlr['size'] - 32); // 32 - size of full_box_header + hdlr_box
                                     break;
 
@@ -271,9 +302,13 @@ class Mpeg4Part12Adapter {
 
         }
 
+        if (empty($this->streams) && !$this->stream->isEnd()) {
+            var_dump('NEXT BOX TYPE IS: '.$this->getNextBoxType());
+        }
+
         // find for mdat
         if (empty($this->mdat)) {
-            while (!$this->stream->isEnd() && $this->getNextBoxType() != 'mdat') {
+            while (!$this->stream->isEnd() && $this->getNextBoxType() !== 'mdat') {
                 $box = $this->stream->readGroup('box_header');
                 $this->stream->skip($box['size'] - 8); // 8 - size of box_header structure
             }
@@ -282,6 +317,9 @@ class Mpeg4Part12Adapter {
 
     }
 
+    /**
+     * @return bool|string
+     */
     protected function getNextBoxType() {
         $this->stream->mark('current_box');
         $this->stream->skip(4);
@@ -290,12 +328,15 @@ class Mpeg4Part12Adapter {
         return $type;
     }
 
+    /**
+     * @return bool|null|string
+     */
     protected function readUntilDoubleNull() {
         $string = null;
         $previous_null = false;
         while (!$this->stream->isEnd()) {
             $char = $this->stream->readChar();
-            if ($char == "\00") {
+            if ($char === "\00") {
                 if ($previous_null) {
                     $string = substr($string, 0, -1);
                     break;
@@ -309,12 +350,15 @@ class Mpeg4Part12Adapter {
         return $string;
     }
 
+    /**
+     * @return array
+     */
     protected function readBox() {
         $box = $this->stream->readGroup('box_header');
         if ($box['size'] == 1)
-            $box['extended_size'] = $this->stream->readInt(64);
-        if ($box['type'] == 'uuid')
-            $box['usertype'] = $this->string->readString(16);
+            $box['extended_size'] = $this->stream->readInteger(64);
+        if ($box['type'] === 'uuid')
+            $box['usertype'] = $this->stream->readString(16);
         return $box;
     }
 }

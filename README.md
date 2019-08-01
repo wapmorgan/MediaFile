@@ -61,13 +61,13 @@ try {
 
 | Method                                   | Description                                                                       | Notes                                                                                                   |
 |------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| `static open($filename): MediaFile` | Detects file type and format and calls constructor with these parameters.         | Throws an `\Exception` if file is not a media or is not accessible.                                     |
+| `static open($filename): MediaFile`      | Detects file type and format and calls constructor with these parameters.         | Throws an `\Exception` if file is not a media or is not accessible.                                     |
 | `isAudio(): boolean`                     | Returns true if media is just audio.                                              |                                                                                                         |
 | `isVideo(): boolean`                     | Returns true if media is a video with audio.                                      |                                                                                                         |
 | `isContainer(): boolean`                 | Returns true if media is also a container (can store multiple audios and videos). |                                                                                                         |
 | `getFormat(): string`                    | Returns media file format.                                                        |                                                                                                         |
-| `getAudio(): AudioAdapter`               | Returns an `AudioAdapter` interface for audio.                                      |                                                                                                         |
-| `getVideo(): VideoAdapter`               | Returns an `VideoAdapter` interface for video.                                      |                                                                                                         |
+| `getAudio(): AudioAdapter`               | Returns an `AudioAdapter` interface for audio.                                    |                                                                                                         |
+| `getVideo(): VideoAdapter`               | Returns an `VideoAdapter` interface for video.                                    |                                                                                                         |
 ### AudioAdapter
 
 `wapmorgan\MediaFile\AudioAdapter`

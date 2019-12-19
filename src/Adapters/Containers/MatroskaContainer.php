@@ -229,7 +229,7 @@ class MatroskaContainer {
         $i = 1;
         while (!$this->stream->isEnd()) {
             if ($i++ % 1000 == 0) break; //var_dump(dechex($id), memory_get_usage(), ftell($this->stream->fp));
-            $pos = ftell($this->stream->fp);
+            // $pos = ftell($this->stream->fp);
             $id = $this->readEbmlElementId();
             $size = $this->readEbmlElementSize();
             // var_dump(dechex($id), $size, $before_size_pos, ftell($this->stream->fp));

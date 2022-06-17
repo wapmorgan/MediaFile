@@ -1,5 +1,5 @@
 {
-    "name": "wapmorgan/media-file",
+    "name": "codememory/media-file-fork",
     "description": "A unified reader of metadata from audio & video files",
     "license": "MIT",
     "keywords": ["wav", "flac", "aac", "ogg", "mp3", "amr", "avi", "wma", "wmv", "mp4"],
@@ -14,7 +14,7 @@
         "wapmorgan/mp3info": "~0.0",
         "wapmorgan/binary-stream": "~0.4.0",
         "wapmorgan/file-type-detector": "^1.0.2",
-        "boyhagemann/wave": "dev-master"
+        "codememory/wave-fork": "1.0"
     },
     "suggest": {
         "boyhagemann/wave": "Wav support"

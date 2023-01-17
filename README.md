@@ -68,6 +68,7 @@ try {
 | `getFormat(): string`                    | Returns media file format.                                                        |                                                                                                         |
 | `getAudio(): AudioAdapter`               | Returns an `AudioAdapter` interface for audio.                                    |                                                                                                         |
 | `getVideo(): VideoAdapter`               | Returns an `VideoAdapter` interface for video.                                    |                                                                                                         |
+
 ### AudioAdapter
 
 `wapmorgan\MediaFile\AudioAdapter`
